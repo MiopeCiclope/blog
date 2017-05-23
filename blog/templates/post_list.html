@@ -6,9 +6,10 @@
         {% for post in posts %}
             <hr>
             <h3><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
-            <h5><span class="glyphicon glyphicon-time"></span> {{ post.published_date }}</h5>
+            <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date }}</h6>
             <!--<h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>-->
-            <p>{{ post.text|linebreaksbr }}</p>
+            <p id="postText">{{ post.text|linebreaksbr }}</p>
+            <p class="readMore"><a href="{% url 'blog.views.post_detail' pk=post.pk %}">read more</a></p>
             <br><br>
         {% endfor %}
     </div>

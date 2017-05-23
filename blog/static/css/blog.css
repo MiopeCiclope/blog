@@ -3,31 +3,47 @@ body {
 }
 
 .posts{
-  border-radius: 30px; 
-  padding: 15px;
+    border-radius: 15px !important;
+    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
 }
 
 .row.content {height: 1500px}
 
 .sidenav {
-  background-color: #f1f1f1;
-  height: 100%;
-  border-radius: 15px;  
+    background-color: #f1f1f1;
+    height: 50%;
+    border-radius: 15px; 
+    padding-top: 30px;
 }
 
-footer {
-  padding: 15px;
+.readMore{
+    text-align: right !important;
+    font-size: small !important;
+    font-family: Arial !important;
+    
+}
+.footer {
+    padding: 15px;
 }
 
+#posts{
+    padding: 20px 30px;
+}
 #jumbo {
-  padding: 25px;
+    padding: 25px;
+    border-radius: 15px;
+}
+
+#postText{
+    font-size: 16px;
+    font-family:  sans-serif;
+    color: #000000;
 }
 
 @media screen and (max-width: 767px) {
-  .sidenav {
-    height: auto;
-    padding: 15px;
-  }
-  .row.content {height: auto;} 
+    .sidenav {
+        height: auto;
+        padding: 15px;
+    }
+    .row.content {height: auto;} 
 }
-
