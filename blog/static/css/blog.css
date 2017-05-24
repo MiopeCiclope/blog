@@ -1,10 +1,14 @@
 body {
     margin: 30px 20px 30px 30px;
+    /*background-color: #404040;*/
+    background-image: url('../images/background.png');
+
 }
 
 .posts{
     border-radius: 15px !important;
     font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+    color: white;
 }
 
 .row.content {height: 1500px}
@@ -22,12 +26,14 @@ body {
     font-family: Arial !important;
     
 }
+
 .footer {
     padding: 15px;
 }
 
 #posts{
     padding: 20px 30px;
+    background-color: black;
 }
 #jumbo {
     padding: 25px;
@@ -37,7 +43,7 @@ body {
 #postText{
     font-size: 16px;
     font-family:  sans-serif;
-    color: #000000;
+    color: white;
 }
 
 @media screen and (max-width: 767px) {
@@ -47,3 +53,11 @@ body {
     }
     .row.content {height: auto;} 
 }
+
+a {
+    color: #800000 !important;
+}
+
+/*a:visited {*/
+/*    color: green;*/
+/*}*/
