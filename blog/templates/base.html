@@ -3,21 +3,25 @@
 <html lang="en">
     {% include 'header.html' %}
         <body>
-          <div class="accordion-group">
-            <div class="container-fluid">
-                <div class="row content">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'blog.views.post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>   
-                    {% endif %} 
-                    <div class="col-sm-3 sidenav">
-                        {% include 'sidebar.html' %}
-                    </div>
-                    <div class="col-sm-9">
-                        {% block content %}{% endblock %}
+            <div class="w3-sidebar w3-bar-block w3-collapse w3-card-2 w3-animate-left" style="width:200px;" id="mySidebar">
+                {% include 'sidebar.html' %}
+            </div>
+            
+            <div class="w3-main" style="margin-left:200px">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'blog.views.post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>   
+                {% endif %} 
+                <div class="w3-teal">
+                    <button class="w3-button w3-teal w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</button>
+                    <div class="w3-container">
+                        <h1 class="h1-">Random</h1>
                     </div>
                 </div>
+                <div class="w3-container">
+                    {% block content %}{% endblock %}
+                </div>
+                {% include 'footer.html' %}
             </div>
         </body>
-    {% include 'footer.html' %}
 </html>
 

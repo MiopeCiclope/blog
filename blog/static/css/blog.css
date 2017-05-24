@@ -1,23 +1,12 @@
-body {
-    margin: 30px 20px 30px 30px;
-    background-image: url('../images/background.png');
-    background-size:cover;
-
-}
-
 .posts{
-    border-radius: 15px !important;
     font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
     color: black;
 }
 
 .row.content {height: 1500px}
 
-.sidenav {
-    background-color: #f1f1f1;
-    height: 50%;
-    border-radius: 15px; 
-    padding-top: 30px;
+.h1-{
+    text-align: center !important;
 }
 
 .readMore{
