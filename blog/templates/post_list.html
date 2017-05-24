@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="jumbotron posts" id="posts">
-        <h4><small>RECENT POSTS</small></h4>
-        {% for post in posts %}
-            <hr>
-            <h3><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
-            <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date }}</h6>
-            <!--<h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>-->
-            <p id="postText">{{ post.text|linebreaksbr }}</p>
-            <p class="readMore"><a href="{% url 'blog.views.post_detail' pk=post.pk %}">read more</a></p>
-            <br><br>
-        {% endfor %}
-    </div>
+        <div class="jumbotron posts" id="posts">
+            <h4><small>RECENT POSTS</small></h4>
+            {% for post in posts %}
+                <hr>
+                <h3><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+                <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date }}</h6>
+                <!--<h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>-->
+                <p id="postText">{{ post.text|linebreaksbr }}</p>
+                <p class="readMore"><a href="{% url 'blog.views.post_detail' pk=post.pk %}">read more</a></p>
+                <br><br>
+            {% endfor %}
+        </div>
 {% endblock content %}
