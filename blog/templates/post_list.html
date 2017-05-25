@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <div class="" id="">
-            <h4><small>RECENT POSTS</small></h4>
-            {% for post in posts %}
-                <hr>
-                <h3><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
-                <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date }}</h6>
-                <!--<h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>-->
-                <p id="postText">{{ post.text|linebreaksbr }}</p>
+    <div class="w3-conteiner postscontainer">
+        <h4><small class="recentposts">RECENT POSTS</small></h4> 
+        {% for post in posts %}
+        <div class= "w3-white w3-conteiner">
+            <div class="w3-row w3-black">
+                <div class="w3-container w3-twothird w3-black">
+                    <h3 ><a href="{% url 'blog.views.post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+                </div>
+                <div class="w3-container w3-third w3-black date">
+                    <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date }}</h6>
+                </div>
+            </div>
+            <!--<h5><span class="label label-danger">Food</span> <span class="label label-primary">Ipsum</span></h5><br>-->
+            <div class="postcontainer">
+                <article>{{ post.text|linebreaksbr }}</article>
                 <p class="readMore"><a href="{% url 'blog.views.post_detail' pk=post.pk %}">read more</a></p>
                 <br><br>
-            {% endfor %}
+            </div>
         </div>
+        {% endfor %}
+    </div>
 {% endblock content %}

@@ -1,6 +1,6 @@
 TO DO list
 
-    
+    - TOMAR DECISÕES ANTES DE FAZER AS COISAS!    
     - Criar tabelas no banco para os comentários.
     - Linkar comentários com facebook para poder comentar
     - Remover botão de busca. (Ou pensar em um jeito de tornalo útil.)

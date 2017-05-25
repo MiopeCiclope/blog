@@ -1,14 +1,3 @@
-.posts{
-    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-    color: black;
-}
-
-.row.content {height: 1500px}
-
-.h1-{
-    text-align: center !important;
-}
-
 .readMore{
     text-align: right !important;
     font-size: small !important;
@@ -20,34 +9,18 @@
     padding: 15px;
 }
 
-#posts{
-    padding: 20px 30px;
-    background-color: #f1f1f1;
+.recentposts{
+    color: black !important;
 }
 
-#jumbo {
-    padding: 25px;
-    border-radius: 15px;
+.postscontainer{
+    padding-left: 20px !important;
 }
 
-#postText{
-    font-size: 16px;
-    font-family:  sans-serif;
-    color: #211313;
+.date{
+    padding-top: 7px !important;
 }
 
-@media screen and (max-width: 767px) {
-    .sidenav {
-        height: auto;
-        padding: 15px;
-    }
-    .row.content {height: auto;} 
+.postcontainer{
+    padding: 20px !important;
 }
-
-a {
-    color: #800000 !important;
-}
-
-/*a:visited {*/
-/*    color: green;*/
-/*}*/
