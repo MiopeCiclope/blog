@@ -5,10 +5,6 @@
     
 }
 
-.footer {
-    padding: 15px;
-}
-
 .recentposts{
     color: black !important;
 }
@@ -23,4 +19,16 @@
 
 .postcontainer{
     padding: 20px !important;
+}
+
+.commentcontainer{
+    padding: 0px 0px 0px 0px !important;
+}
+
+.detailcontainer{
+    padding: 20px 0px 0px 20px !important;
+}
+
+.labelComment{
+    padding: 0px 0px 0px 0px !important;
 }

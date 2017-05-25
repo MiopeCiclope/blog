@@ -1,29 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="" id="">
-        <div class="date">
-        {% if post.published_date %}
-            {{ post.published_date }}
-        {% endif %}
+    <div class="w3-conteiner detailcontainer">
+        <h4><small class="recentposts">
+            {% if post.published_date %}
+                {{ post.published_date }}
+            {% endif %}
+        </small></h4> 
         
-        {% if user.is_authenticated %}
-            <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
-        {% endif %}    
-        
-        </div>
-        <h2 >{{ post.title }}</h2>
-        <p id="postText">{{ post.text|linebreaksbr }}</p>
+        <div class= "w3-white w3-conteiner">
+            <div class="w3-row w3-black">
+                <div class="w3-container w3-twothird w3-black">
+                    <h2 >{{ post.title }}</h2>
+                </div>
+                <div class="w3-container w3-third w3-black">
+                    <div class="date w3-right">
+                        {% if user.is_authenticated %}
+                            <a class="btn btn-default " href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>    
+            <div class="postcontainer">
+                <article>{{ post.text|linebreaksbr }}</article>
+            </div>
+        </div>        
     </div>
     
-    <div class="" id="">
-        <h4>Leave a Comment:</h4>
-        <form role="form">
-            <div class="form-group">
-                <textarea class="form-control" rows="3" required></textarea>
+    <div class="w3-row">
+        <div class="w3-container w3-half w3-black">
+            
+        </div>
+        <div class="w3-container w3-half w3-black labelComment">
+
+                <h4 class="w3-conteiner w3-red labelComment">Leave a Comment:</h4>
+
+            <div class="w3-container labelComment">
+                <form role="form">
+                    <div class="form-group">
+                        <textarea class="w3-input w3-leftbar w3-border-black" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="w3-button w3-red">Submit</button>
+                </form>
             </div>
-            <button type="submit" class="btn btn-success">Submit</button>
-        </form>
+        </div>
     </div>
+
+    
     
 {% endblock content %}

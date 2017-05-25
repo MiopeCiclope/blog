@@ -8,15 +8,17 @@
             </div>
             
             <div class="w3-main" style="margin-left:200px">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'blog.views.post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>   
-                {% endif %} 
                 <div class="w3-row w3-black">
                     <div class="w3-container w3-third w3-black">
                         <button class="w3-button w3-teal w3-xlarge w3-hide-large w3-black w3-hover-red" onclick="w3_open()">&#9776;</button>
                     </div>
-                    <div class="w3-container w3-twothird w3-black">
+                    <div class="w3-container w3-third w3-black">
                         <h1>Random</h1>
+                    </div>
+                    <div class="w3-container w3-third w3-black w3-center date">
+                        {% if user.is_authenticated %}
+                            <a class="w3-btn w3-circle w3-light-gray w3-hover-red" href="{% url 'blog.views.post_new' %}" >+</a>
+                        {% endif %} 
                     </div>
                 </div>
                 <div class="w3-row  w3-light-gray">
