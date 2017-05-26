@@ -32,3 +32,23 @@
 .labelComment{
     padding: 0px 0px 0px 0px !important;
 }
+
+.commentListContainer{
+    padding: 0px 0px 0px 20px !important;
+}
+
+.adminButtonEdit{
+    padding: 10px 10px 10px 10px !important;
+}
+
+.adminButtonAdd{
+    padding: 10px 26px 10px 10px !important;
+}
+
+textarea {
+    resize: none;
+}
+
+#commentInput {
+    resize: vertical;
+}
