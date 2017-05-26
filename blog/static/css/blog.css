@@ -52,3 +52,15 @@ textarea {
 #commentInput {
     resize: vertical;
 }
+
+#paddingcomment{
+    padding: 0px 0px 0px 20px !important;
+}
+
+.footer{
+    padding: 5px 0px 0px 0px !important;
+}
+
+#paddingcomments{
+    padding-left: 20px !important;
+}
