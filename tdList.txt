@@ -1,7 +1,3 @@
 TO DO list
 
-    - Criar tabelas no banco para os comentários.
-    - Criar um campo de resumo no banco para por na MainPage
-    - Fazer um form decente pro login
-    - Modificar a query da lista de posts. (Do último pro primeiro)
-    - diminuir largura da sidebar
+    - Adicionar campo de imagem pros posts.

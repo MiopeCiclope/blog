@@ -10,12 +10,14 @@ class PostListView(ListView):
     model = Post
     paginate_by = 2
     template_name = 'post_list.html'
-    # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')    
+    # queryset = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+    def get_queryset(self):
+        return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'post_detail.html', {'post': post})  
-    
+        
 @login_required  
 def post_new(request):
     if request.method == "POST":

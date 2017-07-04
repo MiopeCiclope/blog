@@ -14,10 +14,12 @@
                     </div>
                 </div>
                 <div class="postcontainer">
-                    <article>{{ post.text|linebreaksbr }}</article>
+                    <article>{{ post.summary|linebreaksbr }}</article>
                     <p class="readMore"><a href="{% url 'blog.views.post_detail' pk=post.pk %}">read more</a></p>
-                    <br><br>
                 </div>
+            </div>
+            <div>
+                <br><br>
             </div>
         {% endfor %}
     </div>

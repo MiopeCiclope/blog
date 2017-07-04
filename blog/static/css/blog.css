@@ -59,6 +59,11 @@ textarea {
 
 .footer{
     padding: 5px 0px 0px 0px !important;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
 }
 
 #paddingcomments{
@@ -67,9 +72,4 @@ textarea {
 
 .linkNoStuf{
     text-decoration: none !important;
-}
-
-.center {
-    width: 100%;
-    margin: 0 auto !important;
 }
