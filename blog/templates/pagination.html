@@ -1,0 +1,27 @@
+{% if is_paginated %}
+    <div class="w3-container w3-light-gray" >
+        <br><br>
+    </div>
+    <div class="w3-show-inline-block center">
+        <div class="w3-bar w3-red">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="w3-bar-item w3-button w3-hover-black linkNoStuf"> 
+                  <span>Previous</span>
+                </a>
+            {% endif %}
+            
+            {% for page in paginator.page_range %}
+                <a href="?page={{ page }}" class="w3-bar-item w3-button w3-hover-black linkNoStuf">{{ page }}</a>
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="w3-bar-item w3-button w3-hover-black linkNoStuf">
+                  <span>Next</span>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="w3-container w3-light-gray" >
+        <br><br>
+    </div>
+{% endif %}

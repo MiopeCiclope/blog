@@ -1,9 +1,6 @@
 TO DO list
 
-    - Linkar comentários com facebook para poder comentar.
-    - Adicionar paginação nos posts e comentários.
     - Criar tabelas no banco para os comentários.
-    - Adicionar o subtitulo bonitinho que tá comentado no post_list. Adicionar no banco tbm
     - Criar um campo de resumo no banco para por na MainPage
     - Fazer um form decente pro login
     - Modificar a query da lista de posts. (Do último pro primeiro)
