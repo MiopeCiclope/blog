@@ -1,5 +1,5 @@
-from django.conf.urls import patterns, url
-urlpatterns = patterns('',
+from django.conf.urls import include, url
+urlpatterns = [
     url(
         r'login/$',
         'django.contrib.auth.views.login',
@@ -28,4 +28,4 @@ urlpatterns = patterns('',
         name='password_change_done',
         kwargs={'template_name': 'password_change_done.html'}
     ),
-)
+]
