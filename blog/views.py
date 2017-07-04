@@ -4,10 +4,13 @@ from .models import Post
 from .forms import PostForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
+from django.views.generic import ListView
 
-def post_list(request):
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-    return render(request, 'post_list.html', {'posts': posts})
+class PostListView(ListView):
+    model = Post
+    paginate_by = 2
+    template_name = 'post_list.html'
+    # posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')    
     
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
