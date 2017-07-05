@@ -59,7 +59,7 @@ textarea {
 
 .footer{
     padding: 5px 0px 0px 0px !important;
-    position: absolute;
+    position: relative;
     right: 0;
     bottom: 0;
     left: 0;
