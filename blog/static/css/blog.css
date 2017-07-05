@@ -73,3 +73,9 @@ textarea {
 .linkNoStuf{
     text-decoration: none !important;
 }
+
+.center {
+    width:100%;
+    display:block;
+    margin:auto
+}

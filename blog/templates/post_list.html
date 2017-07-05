@@ -13,10 +13,17 @@
                         <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date }}</h6>
                     </div>
                 </div>
-                <div class="postcontainer">
-                    <img src="{{ post.image.url }}" />
-                    <article>{{ post.summary|linebreaksbr }}</article>
-                    <p class="readMore"><a href="{% url 'blog:post_detail' pk=post.pk %}">read more</a></p>
+                <div class="w3-container postcontainer">
+                    <div class="w3-container w3-half">
+                        <img src="{{ post.image.url }}" class="w3-image"/>
+						<div class="caption text-center">
+							"qwer"
+						</div>
+                    </div>
+                    <div class="w3-container w3-half">
+                        <article>{{ post.summary|linebreaksbr }}</article>
+                        <p class="readMore"><a href="{% url 'blog:post_detail' pk=post.pk %}">read post</a></p>
+                    </div>
                 </div>
             </div>
             <div>

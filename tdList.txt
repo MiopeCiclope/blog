@@ -1,6 +1,7 @@
 TO DO list
 
+- Centralizar imagem (Pq essa porra é tão difícil?).
 - Fazer o footer ficar no bottom da pagina.
-- Colocar imagem no post_detail.
-- 
+- Add image description.
+
     
