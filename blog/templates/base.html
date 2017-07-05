@@ -26,7 +26,7 @@
                     </div>
                     <div class="w3-container w3-third w3-black adminButtonAdd">
                         {% if user.is_authenticated %}
-                            <a class="w3-btn w3-circle w3-light-gray w3-hover-black w3-right" href="{% url 'blog.views.post_new' %}" ><span class="glyphicon glyphicon-plus"></span></a>
+                            <a class="w3-btn w3-circle w3-light-gray w3-hover-black w3-right" href="{% url 'blog:post_new' %}" ><span class="glyphicon glyphicon-plus"></span></a>
                         {% endif %} 
                     </div>
                 </div>

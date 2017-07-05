@@ -16,7 +16,7 @@
                 <div class="w3-container w3-third w3-black">
                     <div class="date w3-right adminButtonEdit">
                         {% if user.is_authenticated %}
-                            <a class="w3-btn w3-circle w3-light-gray w3-hover-black w3-right w3-hover-black" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a class="w3-btn w3-circle w3-light-gray w3-hover-black w3-right w3-hover-black" href="{% url 'blog:post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
                         {% endif %}
                     </div>
                 </div>
