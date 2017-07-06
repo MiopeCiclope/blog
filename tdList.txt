@@ -1,13 +1,10 @@
 TO DO list
 
+- Pensar no aside.
 - Ajeitar o git ignore
-- Colocar imagem e descrição numa caixa juntas
-- Fixar um tamnho para as imagens
-- Arrumar uma formataçã obonita pro texto
-- Tirar os links dos títulos do post
-- Fazer imagem ser link
-- Referencia de imagem.
-- Adicionar botões de rede social 
+- Referencia de imagem
 - Fazer o footer ficar no bottom da pagina.
-
-    
+- Remover paginação para scrool infinito.
+- captions salvas no banco.
+- Fazer um header decente, ou achar um. 
+- Manter o header fixo no topo da tela.

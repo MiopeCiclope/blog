@@ -15,14 +15,13 @@
             <div class="w3-sidebar w3-bar-block w3-collapse w3-card-2 w3-animate-left w3-red" style="width:150px;" id="mySidebar">
                 {% include 'sidebar.html' %}
             </div>
-            
             <div class="w3-main" style="margin-left:150px">
                 <div class="w3-row w3-black">
                     <div class="w3-container w3-third w3-black">
                         <button class="w3-button w3-teal w3-xlarge w3-hide-large w3-black w3-hover-red" onclick="w3_open()">&#9776;</button>
                     </div>
                     <div class="w3-container w3-third w3-black">
-                        <h1>Random</h1>
+                        <h1></h1>
                     </div>
                     <div class="w3-container w3-third w3-black adminButtonAdd">
                         {% if user.is_authenticated %}
@@ -31,7 +30,12 @@
                     </div>
                 </div>
                 <div class="w3-row w3-light-gray">
-                    {% block content %}{% endblock %}
+                    <div class="w3-container w3-twothird">
+                        {% block content %}{% endblock %}
+                    </div>
+                    <div class="w3-container w3-third">
+                        {% include 'aside.html' %}
+                    </div>
                 </div>
             </div>
         </body>

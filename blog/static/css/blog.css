@@ -76,5 +76,20 @@ textarea {
 
 .center {
     display:block;
-    margin:auto
+    margin:auto;
+    max-width: 500px;
+    max-height: 300px;
+}
+
+.thumbCcenter {
+    display:block;
+    margin:auto;
+    max-width: 550px;
+    max-height: 350px;
+}
+
+.product-social-links
+{ 
+    line-height: 10px !important; 
+    float: right;
 }

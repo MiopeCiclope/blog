@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load social_widgets %}
+
+{% block content %}
+    
+    {% social_widget_render "facebook/share_button.html" href="http://miopeciclope.pythonanywhere.com/post/2/" %}
+    {% social_widget_render "twitter/follow_button.html" username="BillGates" show_screen_name=True %}
+    {% social_widget_render "twitter/share_button.html" href="http://www.twitter.com" %}
+    <!--{% social_widget_render "facebook/embedded_post.html" href="https://www.facebook.com/FacebookDevelopers/posts/10151471074398553" %}-->
+    
+{% endblock content %}

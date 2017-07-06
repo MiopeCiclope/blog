@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load social_widgets %}
 
 {% block content %}
     <div class="w3-conteiner detailcontainer">
@@ -23,13 +24,22 @@
             </div>    
             <div class="w3-container postcontainer">
                 <div class="w3-container postcontainer">
-                    <div class="thumbnail">
+                    <div class="thumbnail thumbCcenter">
                         <img src="{{ post.image.url }}" class="w3-image center" />
     					<div class="caption text-center">
     						"qwer"
     					</div>
 					</div>
-                    <article>{{ post.text|linebreaksbr }}</article>
+					<div>
+    					<br><br>
+                        <!--<article>{{ post.text|linebreaksbr }}</article>-->
+                        {% lorem 3 p %}
+                        <br><br>
+					</div>
+                    <div class="product-social-links">
+                        {% social_widget_render "facebook/share_button.html" href="http://demo-project-miopeciclope-2.c9.io{{ request.get_full_path }}" layout="button" %}
+                        {% social_widget_render "twitter/share_button.html" href="http://www.twitter.com" %}
+                    </div>
                 </div>
             </div>
         </div>        
@@ -41,12 +51,12 @@
         <div class="w3-container labelComment">
             <div class="w3-container w3-third">
             </div>
-            <div class="w3-container w3-twothird">
+            <div class="w3-container w3-twothird labelComment">
                 <div class="w3-container w3-red labelComment ">
                     <div class="w3-red labelComment w3-border-left w3-border-red">
                         <h4 id="paddingcomments">Leave a Comment</h4>
                     </div>
-                    <div class="w3-container w3-light-gray w3-border-left w3-border-bottom w3-border-black">
+                    <div class="w3-container w3-light-gray w3-border-left w3-border-black">
                         <div class="fb-comments" 	
     data-colorscheme="light" data-href="http://demo-project-miopeciclope-2.c9.io/post/{{ post.pk }}" data-width="100%" data-numposts="5"></div>
                     </div>

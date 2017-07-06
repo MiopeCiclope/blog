@@ -10,7 +10,7 @@
                         <h3>{{ post.title }}</h3>
                     </div>
                     <div class="w3-container w3-third w3-black date">
-                        <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date }}</h6>
+                        <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date|date:'N j, Y' }}</h6>
                     </div>
                 </div>
                 <div class="w3-container postcontainer">
@@ -23,8 +23,10 @@
                         </div>
                     </div>
                     <div class="w3-container w3-half">
-                        <article>{{ post.summary|linebreaksbr }}</article>
-                        <p class="readMore"><a href="{% url 'blog:post_detail' pk=post.pk %}">read post</a></p>
+                        <!--<article>{{ post.summary|linebreaksbr }}</article>-->
+                        {% lorem %}
+                        <br><br>
+                        <p class="readMore"><a class="w3-button w3-red w3-hover-black" href="{% url 'blog:post_detail' pk=post.pk %}">read post</a></p>
                     </div>
                 </div>
             </div>
