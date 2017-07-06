@@ -7,7 +7,7 @@
             <div class= "w3-white w3-conteiner">
                 <div class="w3-row w3-black">
                     <div class="w3-container w3-twothird w3-black">
-                        <h3 ><a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+                        <h3>{{ post.title }}</h3>
                     </div>
                     <div class="w3-container w3-third w3-black date">
                         <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date }}</h6>
@@ -15,10 +15,12 @@
                 </div>
                 <div class="w3-container postcontainer">
                     <div class="w3-container w3-half">
-                        <img src="{{ post.image.url }}" class="w3-image"/>
-						<div class="caption text-center">
-							"qwer"
-						</div>
+                        <div class="thumbnail">
+                            <a href="{% url 'blog:post_detail' pk=post.pk %}"><img src="{{ post.image.url }}" class="w3-image"/></a>
+    						<div class="caption text-center">
+    							"qwer"
+    						</div>
+                        </div>
                     </div>
                     <div class="w3-container w3-half">
                         <article>{{ post.summary|linebreaksbr }}</article>
