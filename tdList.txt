@@ -1,7 +1,13 @@
 TO DO list
 
-- Centralizar imagem (Pq essa porra é tão difícil?).
+- Ajeitar o git ignore
+- Colocar imagem e descrição numa caixa juntas
+- Fixar um tamnho para as imagens
+- Arrumar uma formataçã obonita pro texto
+- Tirar os links dos títulos do post
+- Fazer imagem ser link
+- Referencia de imagem.
+- Adicionar botões de rede social 
 - Fazer o footer ficar no bottom da pagina.
-- Add image description.
 
     
