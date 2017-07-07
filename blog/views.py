@@ -52,3 +52,6 @@ def post_edit(request, pk):
 @login_required
 def tst(request):
     return render(request, 'tst.html')
+
+def google(request):
+    return render(request, 'googlef6613f69040c50ea.html')
