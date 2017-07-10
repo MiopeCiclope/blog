@@ -2,7 +2,7 @@
 {% load social_widgets %}
 
 {% block content %}
-    <div class="w3-conteiner detailcontainer">
+    <div class="w3-conteiner">
         <h4><small class="recentposts">
             {% if post.published_date %}
                 {{ post.published_date }}
@@ -38,8 +38,8 @@
 					</div>
                 </div>
                 <div class="product-social-links">
-                    {% social_widget_render "facebook/share_button.html" href="http://demo-project-miopeciclope-2.c9.io{{ request.get_full_path }}" layout="button" %}
-                    {% social_widget_render "twitter/share_button.html" href="http://www.twitter.com" %}
+                    {% social_widget_render "facebook/share_button.html" href="" layout="button" %}
+                    {% social_widget_render "twitter/share_button.html" href="" %}
                 </div>
             </div>
         </div>        
@@ -48,18 +48,14 @@
         <br><br>
     </div>
     <div class="w3-row">
-        <div class="w3-container labelComment">
-            <div class="w3-container w3-third">
-            </div>
-            <div class="w3-container w3-twothird labelComment">
-                <div class="w3-container w3-red labelComment ">
-                    <div class="w3-red labelComment w3-border-left w3-border-red">
-                        <h4 id="paddingcomments">Leave a Comment</h4>
-                    </div>
-                    <div class="w3-container w3-light-gray w3-border-left w3-border-black">
-                        <div class="fb-comments" 	
-    data-colorscheme="light" data-href="http://demo-project-miopeciclope-2.c9.io/post/{{ post.pk }}" data-width="100%" data-numposts="5"></div>
-                    </div>
+        <div class="w3-container">
+            <div class="w3-container w3-red labelComment ">
+                <div class="w3-red labelComment">
+                    <h4 id="paddingcomments">Leave a Comment</h4>
+                </div>
+                <div class="w3-container w3-white">
+                    <div class="fb-comments" 	
+data-colorscheme="light" data-href="http://demo-project-miopeciclope-2.c9.io/post/{{ post.pk }}" data-width="100%" data-numposts="5"></div>
                 </div>
             </div>
         </div>
