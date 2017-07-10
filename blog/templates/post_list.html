@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="w3-conteiner postscontainer">
+    <div class="w3-conteiner">
         <br><br>
         {% for post in object_list %}
             <div class= "w3-white w3-conteiner">
@@ -13,7 +13,7 @@
                         <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date|date:'N j, Y' }}</h6>
                     </div>
                 </div>
-                <div class="w3-container postcontainer">
+                <div class="w3-container ">
                     <div class="w3-container w3-half">
                         <div class="thumbnail">
                             <a href="{% url 'blog:post_detail' pk=post.pk %}"><img src="{{ post.image.url }}" class="w3-image"/></a>

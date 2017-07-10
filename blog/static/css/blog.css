@@ -93,3 +93,7 @@ textarea {
     line-height: 10px !important; 
     float: right;
 }
+
+ .main {
+   padding: 0px 5%;
+ }
