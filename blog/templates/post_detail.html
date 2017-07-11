@@ -2,6 +2,13 @@
 {% load social_widgets %}
 
 {% block content %}
+    {% block metadata %}
+        <title>{{ post.title }}</title>
+        <meta name="description" content="{{ post.summary }}">
+        <meta name="keywords" content="random, life, culture, experience, inside out, youth">
+        <meta name="author" content="{{ post.author }}">
+    {% endblock %}
+    
     <div class="w3-conteiner">
         <h4><small class="recentposts">
             {% if post.published_date %}
@@ -38,6 +45,7 @@
 					</div>
                 </div>
                 <div class="product-social-links">
+                <!--<div class="fb-share-button" data-href="http://demo-project-miopeciclope-2.c9.io/post/{{ post.pk }}" data-layout="button_count"></div>-->
                     {% social_widget_render "facebook/share_button.html" href="" layout="button" %}
                     {% social_widget_render "twitter/share_button.html" href="" %}
                 </div>
