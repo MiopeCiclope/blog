@@ -13,7 +13,28 @@ class PostListView(ListView):
     template_name = 'post_list.html'
     def get_queryset(self):
         return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    
+
+class PostListViewGarbage(ListView):
+    model = Post
+    paginate_by = 10
+    template_name = 'post_list.html'
+    def get_queryset(self):
+        return Post.objects.filter(published_date__lte=timezone.now()).order_by('-garbage')
+
+class PostListViewLoved (ListView):
+    model = Post
+    paginate_by = 10
+    template_name = 'post_list.html'
+    def get_queryset(self):
+        return Post.objects.filter(published_date__lte=timezone.now()).order_by('-love')
+        
+class PostListViewDrunk (ListView):
+    model = Post
+    paginate_by = 10
+    template_name = 'post_list.html'
+    def get_queryset(self):
+        return Post.objects.filter(drunk=True).order_by('-published_date')
+        
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'post_detail.html', {'post': post})  
