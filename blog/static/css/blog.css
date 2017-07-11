@@ -87,7 +87,7 @@ textarea {
 .product-social-links
 { 
     line-height: 10px !important; 
-    float: right;
+    float: right !important;
 }
 
 .main {

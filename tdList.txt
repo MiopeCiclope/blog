@@ -1,6 +1,8 @@
 TO DO list
 
-- Remover paginação para scrool infinito.
-- captions salvas no banco.
+- Most Loved/Worst/DRUNK (Mesma coisa que page list mas com queryset diferente)
+
+==============================================================================
+- Remover paginação para scrool infito. (Duvido que eu usar a paginação)
 - Fazer um header decente, ou achar um (imagem bonitinha).
 - Arrumar metadata pros botões de social midia

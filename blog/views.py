@@ -9,7 +9,7 @@ from django.forms import modelformset_factory
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 5
+    paginate_by = 10
     template_name = 'post_list.html'
     def get_queryset(self):
         return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')

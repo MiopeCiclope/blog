@@ -34,20 +34,27 @@
                     <div class="thumbnail thumbCcenter">
                         <img src="{{ post.image.url }}" class="w3-image center" />
     					<div class="caption text-center">
-    						"qwer"
+    						{{ post.caption }}
     					</div>
 					</div>
 					<div>
     					<br><br>
-                        <!--<article>{{ post.text|linebreaksbr }}</article>-->
+                        <article>{{ post.text|linebreaksbr }}</article>
                         {% lorem 3 p %}
                         <br><br>
 					</div>
                 </div>
-                <div class="product-social-links">
-                <!--<div class="fb-share-button" data-href="http://demo-project-miopeciclope-2.c9.io/post/{{ post.pk }}" data-layout="button_count"></div>-->
-                    {% social_widget_render "facebook/share_button.html" href="" layout="button" %}
-                    {% social_widget_render "twitter/share_button.html" href="" %}
+                <div class="w3-row">
+                    <div class="w3-half">
+                        <div class="w3-row">
+                            <button class="w3-btn w3-black w3-hover-white w3-half">Garbage <i class="w3-margin-left fa fa-trash"></i></button>
+                            <button class="w3-btn w3-red w3-hover-white w3-half">Loved! <i class="w3-margin-left fa fa-heart"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-social-links">
+                        {% social_widget_render "facebook/share_button.html" href="" layout="button" %}
+                        {% social_widget_render "twitter/share_button.html" href="" %}
+                    </div>
                 </div>
             </div>
         </div>        
@@ -56,7 +63,7 @@
         <br><br>
     </div>
     <div class="w3-row">
-        <div class="w3-container">
+        <div class="w3-container labelComment">
             <div class="w3-container w3-red labelComment ">
                 <div class="w3-red labelComment">
                     <h4 id="paddingcomments">Leave a Comment</h4>
