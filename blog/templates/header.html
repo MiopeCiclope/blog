@@ -1,25 +1,16 @@
 {% load staticfiles %}
 <head>
-    <title>Poorly Written Blog</title>
+    {% block metadata %}{% endblock %}
     <meta charset="utf-8">
-    <meta name="description" content="A tired computer science student that realizes he doesn't fit his own culture trying to express his thoughts and worries, sometimes wanting to be heard, but most of the time happy for not be seen.">
-    <meta name="keywords" content="random, life, culture, experience, inside out, youth">
-    <meta name="author" content="Romulo Tone">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script>
-        function w3_open() {
-            document.getElementById("mySidebar").style.display = "block";
-        }
-        function w3_close() {
-            document.getElementById("mySidebar").style.display = "none";
-        }
-    </script>
+    <script src="{% static "js/like.js" %}"></script>
 </head>

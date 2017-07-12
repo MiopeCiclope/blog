@@ -6,14 +6,22 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
 from django.forms import modelformset_factory
+from django.http import HttpResponse
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 5
+    paginate_by = 10
     template_name = 'post_list.html'
     def get_queryset(self):
-        return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-    
+        if not self.kwargs['category']:
+            return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+        elif self.kwargs['category'] == 'garbage':
+            return Post.objects.filter(published_date__lte=timezone.now()).order_by('-garbage')
+        elif self.kwargs['category'] == 'love':
+            return Post.objects.filter(published_date__lte=timezone.now()).order_by('-love')
+        else:
+            return Post.objects.filter(drunk=True).order_by('-published_date')
+        
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'post_detail.html', {'post': post})  
@@ -51,7 +59,40 @@ def post_edit(request, pk):
     
 @login_required
 def tst(request):
-    return render(request, 'tst.html')
+    posts = Post.objects.filter() 
+    return render(request, 'tst.html', {'posts': posts})
 
 def google(request):
     return render(request, 'googlef6613f69040c50ea.html')
+    
+def trash_category(request):
+
+    cat_id = None
+    if request.method == 'GET':
+        cat_id = request.GET['category_id']
+
+    garbage = 0
+    if cat_id:
+        cat = Post.objects.get(id=int(cat_id))
+        if cat:
+            garbage = cat.garbage + 1
+            cat.garbage =  garbage
+            cat.save()
+
+    return HttpResponse(garbage)
+    
+def love_category(request):
+
+    cat_id = None
+    if request.method == 'GET':
+        cat_id = request.GET['category_id']
+
+    love = 0
+    if cat_id:
+        cat = Post.objects.get(id=int(cat_id))
+        if cat:
+            love = cat.love + 1
+            cat.love =  love
+            cat.save()
+
+    return HttpResponse(love)

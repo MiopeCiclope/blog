@@ -1,11 +1,24 @@
-{% extends 'base.html' %}
-{% load social_widgets %}
-
-{% block content %}
-    
-    {% social_widget_render "facebook/share_button.html" href="http://miopeciclope.pythonanywhere.com/post/2/" %}
-    {% social_widget_render "twitter/follow_button.html" username="BillGates" show_screen_name=True %}
-    {% social_widget_render "twitter/share_button.html" href="http://www.twitter.com" %}
-    <!--{% social_widget_render "facebook/embedded_post.html" href="https://www.facebook.com/FacebookDevelopers/posts/10151471074398553" %}-->
-    
-{% endblock content %}
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script src="{% static "js/like.js" %}"></script>
+    </head>
+    <body style="height:100%; width:100%">
+        {% for post in posts %}
+            <div>
+                <span>{{ post.title }} --- {{ post.id }} </span>
+                <strong id="like_count"> ({{ post.garbage }}</strong> people garbage this category)
+                
+                {% if user.is_authenticated %}
+                        <button id="likes" data-catid="{{post.id}}" class="btn btn-primary .like" type="button">
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        Trash
+                        </button>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </body>
+</html> 

@@ -17,6 +17,10 @@ class Post(models.Model):
             blank=True, null=True)
     summary = models.TextField()
     image = models.ImageField(upload_to=get_image_filename,verbose_name='Image', null=True)
+    caption = models.CharField(max_length=200, default="You should add a caption")
+    love = models.IntegerField(default=0)
+    garbage = models.IntegerField(default=0)
+    drunk = models.BooleanField(default=False)
     
     def publish(self):
         self.published_date = timezone.now()

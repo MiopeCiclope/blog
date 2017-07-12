@@ -2,6 +2,13 @@
 {% load social_widgets %}
 
 {% block content %}
+    {% block metadata %}
+        <title>{{ post.title }}</title>
+        <meta name="description" content="{{ post.summary }}">
+        <meta name="keywords" content="random, life, culture, experience, inside out, youth">
+        <meta name="author" content="{{ post.author }}">
+    {% endblock %}
+    
     <div class="w3-conteiner">
         <h4><small class="recentposts">
             {% if post.published_date %}
@@ -27,19 +34,34 @@
                     <div class="thumbnail thumbCcenter">
                         <img src="{{ post.image.url }}" class="w3-image center" />
     					<div class="caption text-center">
-    						"qwer"
+    						{{ post.caption }}
     					</div>
 					</div>
 					<div>
     					<br><br>
-                        <!--<article>{{ post.text|linebreaksbr }}</article>-->
+                        <article>{{ post.text|linebreaksbr }}</article>
                         {% lorem 3 p %}
                         <br><br>
 					</div>
                 </div>
-                <div class="product-social-links">
-                    {% social_widget_render "facebook/share_button.html" href="" layout="button" %}
-                    {% social_widget_render "twitter/share_button.html" href="" %}
+                <hr class="style11">
+                <span class="w3-small">Don't click those buttons</span>
+                <br><br>
+                <div class="w3-row">
+                    <div class="w3-half">
+                        <div class="w3-row">
+                            <button class="w3-btn w3-black w3-hover-white w3-half" id="trash" data-catid="{{post.id}}"> 
+                                <i class="w3-margin-left fa fa-trash"></i><span id="trash_count">  {{ post.garbage }}</span>
+                            </button>
+                            <button class="w3-btn w3-red w3-hover-white w3-half" id="love" data-catid="{{post.id}}">
+                                <i class="w3-margin-left fa fa-heart"></i><span id="love_count">  {{ post.love }}</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-social-links">
+                        {% social_widget_render "facebook/share_button.html" href="" layout="button" %}
+                        {% social_widget_render "twitter/share_button.html" href="" %}
+                    </div>
                 </div>
             </div>
         </div>        
@@ -48,7 +70,7 @@
         <br><br>
     </div>
     <div class="w3-row">
-        <div class="w3-container">
+        <div class="w3-container labelComment">
             <div class="w3-container w3-red labelComment ">
                 <div class="w3-red labelComment">
                     <h4 id="paddingcomments">Leave a Comment</h4>

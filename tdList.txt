@@ -1,10 +1,8 @@
 TO DO list
 
-- Pensar no aside.
-- Ajeitar o git ignore
-- Referencia de imagem
-- Fazer o footer ficar no bottom da pagina.
-- Remover paginação para scrool infinito.
-- captions salvas no banco.
-- Fazer um header decente, ou achar um. 
-- Manter o header fixo no topo da tela.
+- Most Loved/Worst/DRUNK (Mesma coisa que page list mas com queryset diferente)
+
+==============================================================================
+- Remover paginação para scrool infito. (Duvido que eu usar a paginação)
+- Fazer um header decente, ou achar um (imagem bonitinha).
+- Arrumar metadata pros botões de social midia
