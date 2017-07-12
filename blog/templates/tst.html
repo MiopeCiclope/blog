@@ -1,14 +1,34 @@
+<!DOCTYPE html>
 <html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#likes').click(function(){
+                    var catid;
+                    catid = $(this).attr("data-catid");
+                    $.get('/like_category/', {category_id: catid}, function(data){
+                               $('#like_count').html(data);
+                               $('#likes').hide();
+                    });
+                });
+            });    
+        </script>
+    </head>
     <body style="height:100%; width:100%">
         {% for post in posts %}
-            <strong id="like_count">{{ post.likes }}</strong> people like this category
-            
-            {% if user.is_authenticated %}
-                    <button id="likes" data-catid="{{post.id}}" class="btn btn-primary" type="button">
-                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                    Like
-                    </button>
-            {% endif %}
+            <div>
+                <span>{{ post.title }} --- {{ post.id }} </span>
+                <strong id="like_count"> ({{ post.garbage }}</strong> people garbage this category)
+                
+                {% if user.is_authenticated %}
+                        <button id="likes" data-catid="{{post.id}}" class="btn btn-primary .like" type="button">
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        Trash
+                        </button>
+                {% endif %}
+            </div>
         {% endfor %}
     </body>
 </html> 
