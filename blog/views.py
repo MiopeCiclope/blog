@@ -65,8 +65,7 @@ def tst(request):
 def google(request):
     return render(request, 'googlef6613f69040c50ea.html')
     
-@login_required
-def like_category(request):
+def trash_category(request):
 
     cat_id = None
     if request.method == 'GET':
@@ -81,3 +80,19 @@ def like_category(request):
             cat.save()
 
     return HttpResponse(garbage)
+    
+def love_category(request):
+
+    cat_id = None
+    if request.method == 'GET':
+        cat_id = request.GET['category_id']
+
+    love = 0
+    if cat_id:
+        cat = Post.objects.get(id=int(cat_id))
+        if cat:
+            love = cat.love + 1
+            cat.love =  love
+            cat.save()
+
+    return HttpResponse(love)

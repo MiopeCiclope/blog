@@ -1,20 +1,10 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function(){
-                $('#likes').click(function(){
-                    var catid;
-                    catid = $(this).attr("data-catid");
-                    $.get('/like_category/', {category_id: catid}, function(data){
-                               $('#like_count').html(data);
-                               $('#likes').hide();
-                    });
-                });
-            });    
-        </script>
+        <script src="{% static "js/like.js" %}"></script>
     </head>
     <body style="height:100%; width:100%">
         {% for post in posts %}

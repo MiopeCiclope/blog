@@ -44,11 +44,18 @@
                         <br><br>
 					</div>
                 </div>
+                <hr class="style11">
+                <span class="w3-small">Don't click those buttons</span>
+                <br><br>
                 <div class="w3-row">
                     <div class="w3-half">
                         <div class="w3-row">
-                            <button class="w3-btn w3-black w3-hover-white w3-half">Garbage <i class="w3-margin-left fa fa-trash"></i></button>
-                            <button class="w3-btn w3-red w3-hover-white w3-half">Loved! <i class="w3-margin-left fa fa-heart"></i></button>
+                            <button class="w3-btn w3-black w3-hover-white w3-half" id="trash" data-catid="{{post.id}}"> 
+                                <i class="w3-margin-left fa fa-trash"></i><span id="trash_count">  {{ post.garbage }}</span>
+                            </button>
+                            <button class="w3-btn w3-red w3-hover-white w3-half" id="love" data-catid="{{post.id}}">
+                                <i class="w3-margin-left fa fa-heart"></i><span id="love_count">  {{ post.love }}</span>
+                            </button>
                         </div>
                     </div>
                     <div class="product-social-links">
