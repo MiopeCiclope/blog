@@ -72,7 +72,8 @@ def post_edit(request, pk):
     
 @login_required
 def tst(request):
-    return render(request, 'tst.html')
+    posts = Post.objects.filter() 
+    return render(request, 'tst.html', {'posts': posts})
 
 def google(request):
     return render(request, 'googlef6613f69040c50ea.html')
