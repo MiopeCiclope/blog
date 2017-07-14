@@ -1,8 +1,7 @@
 TO DO list
 
-- Most Loved/Worst/DRUNK (Mesma coisa que page list mas com queryset diferente)
+- Arrumar metadata pros botões de social midia
 
-==============================================================================
+=============================================================================
 - Remover paginação para scrool infito. (Duvido que eu usar a paginação)
 - Fazer um header decente, ou achar um (imagem bonitinha).
-- Arrumar metadata pros botões de social midia

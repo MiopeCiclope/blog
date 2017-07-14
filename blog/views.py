@@ -57,7 +57,6 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'post_edit.html', {'form': form})
     
-@login_required
 def tst(request):
     posts = Post.objects.filter() 
     return render(request, 'tst.html', {'posts': posts})

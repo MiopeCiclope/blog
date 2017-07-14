@@ -2,13 +2,6 @@
 {% load social_widgets %}
 
 {% block content %}
-    {% block metadata %}
-        <title>{{ post.title }}</title>
-        <meta name="description" content="{{ post.summary }}">
-        <meta name="keywords" content="random, life, culture, experience, inside out, youth">
-        <meta name="author" content="{{ post.author }}">
-    {% endblock %}
-    
     <div class="w3-conteiner">
         <h4><small class="recentposts">
             {% if post.published_date %}
@@ -45,7 +38,7 @@
 					</div>
                 </div>
                 <hr class="style11">
-                <span class="w3-small">Don't click those buttons</span>
+                <span class="w3-small">Don't click these buttons</span>
                 <br><br>
                 <div class="w3-row">
                     <div class="w3-half">
