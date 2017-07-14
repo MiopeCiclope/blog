@@ -1,8 +1,28 @@
 {% load staticfiles %}
 <head>
-    {% block metadata %}{% endblock %}
+    <!--Facebook metatag opengraph-->
+    <meta property="og:image" content= {% if post %} 'http://www.{{ request.META.HTTP_HOST|slice:":-3" }}{{post.image.url}}' {% else %} "http://www.{{ request.META.HTTP_HOST }}/media/monkey.jpg" {% endif %} />
+    <meta property="og:title" content= {% if post %} '{{post.title}}' {% else %} "Poorly Written Blog" {% endif %} />
+    <meta property="og:description" content= {% if post %} '{{post.summary}}' {% else %} "Just another shitty blog" {% endif %}/>
+    <meta property="og:url" content="{{ request.build_absolute_uri }}"/>
+    <meta property="og:site_name" content="Poorly Written Blog"/>
+    <meta property="og:type" content= {% if post %} "article" {% else %} "website" {% endif %}/>
+    
+    <!--Twitter metatag-->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@CM_Tone" />
+    <meta name="twitter:creator" content="@CM_Tone" />
+    <meta name="twitter:title" content={% if post %} '{{post.title}}' {% else %} "Poorly Written Blog" {% endif %} />
+    <meta name="twitter:description" content={% if post %} '{{post.summary}}' {% else %} "Poorly Written Blog" {% endif %} />
+    <meta name="twitter:image" content= {% if post %} "http://www.{{ request.META.HTTP_HOST|slice:":-3" }}{{post.image.url}}" {% else %} "http://www.{{ request.META.HTTP_HOST|slice:":-3" }}/media/monkey.jpg" {% endif %}/>
+
+    <!--My webapp Tag-->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"    content={% if post %} "{{ post.summary }}" {%else%} "A young adult trying to overcome his frustrations writing them online, in a language he clearly doesn't fully comprehend." {% endif %}>
+    <meta name="author"         content={% if post %} "{{ post.author }}" {%else%} "Someone" {% endif %}>
+    <meta name="title"          content={% if post %} "{{ post.title }}" {%else%} "Poorly Written Blog" {% endif %}>
+    <meta name="keywords"       content="">
+    <title>{% if post %} {{ post.title }} {%else%} Poorly Written Blog {% endif %}</title>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
