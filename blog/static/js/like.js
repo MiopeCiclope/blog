@@ -1,19 +1,34 @@
-$(document).ready(function(){
-    $('#trash').click(function(){
-        var catid;
-        catid = $(this).attr("data-catid");
-        $.get('/trash_category/', {category_id: catid}, function(data){
-           $('#trash_count').html("  "+data);
-        });
-    });
-});   
+/*global $*/
 
 $(document).ready(function(){
-    $('#love').click(function(){
-        var catid;
+    $(".actionables").click(function(){
+        var catid, button, state;
         catid = $(this).attr("data-catid");
-        $.get('/love_category/', {category_id: catid}, function(data){
-           $('#love_count').html("  "+data);
+        button = $(this).attr("id");
+        state = $(this).attr("state");
+        
+        $.get('/trash_category/', {category_id: catid, type: button, action: state}, function(data){
+            if (button == "trash") {
+                $('#trash_count').html(" "+data);
+                if (state == "do") {
+                    $('#trash_glyph').hide();
+                } else {
+                    $('#trash_glyph').show();
+                }
+            } else {
+                $('#love_count').html(" "+data);;
+                if (state == "do") {
+                    $('#love_glyph').hide();
+                } else {
+                    $('#love_glyph').show();
+                }
+            }
         });
+        
+        if (state == "do") {
+            $(this).attr("state", "undo");
+        } else {
+            $(this).attr("state", "do");
+        }
     });
-});   
+});

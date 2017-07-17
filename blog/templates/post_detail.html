@@ -2,13 +2,8 @@
 {% load social_widgets %}
 
 {% block content %}
-    <div class="w3-conteiner">
-        <h4><small class="recentposts">
-            {% if post.published_date %}
-                {{ post.published_date }}
-            {% endif %}
-        </small></h4> 
-        
+    <br><br>
+    <div class="w3-conteiner w3-card">
         <div class= "w3-white w3-conteiner">
             <div class="w3-row w3-black">
                 <div class="w3-container w3-twothird w3-black">
@@ -18,6 +13,10 @@
                     <div class="date w3-right adminButtonEdit">
                         {% if user.is_authenticated %}
                             <a class="w3-btn w3-circle w3-light-gray w3-hover-black w3-right w3-hover-black" href="{% url 'blog:post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        {% else %}
+                            <small class="recentposts w3-black">
+                               <h6><span class="glyphicon glyphicon-time"></span> {{ post.published_date|date:'N j, Y'}}</h6>
+                            </small>
                         {% endif %}
                     </div>
                 </div>
@@ -43,11 +42,11 @@
                 <div class="w3-row">
                     <div class="w3-half">
                         <div class="w3-row">
-                            <button class="w3-btn w3-black w3-hover-white w3-half" id="trash" data-catid="{{post.id}}"> 
-                                <i class="w3-margin-left fa fa-trash"></i><span id="trash_count">  {{ post.garbage }}</span>
+                            <button class="w3-btn w3-black w3-hover-white w3-half actionables" id="trash" data-catid="{{post.id}}" state="do"> 
+                                <i class="w3-margin-left fa fa-trash" id="trash_glyph"></i><span id="trash_count">  {{ post.garbage }}</span>
                             </button>
-                            <button class="w3-btn w3-red w3-hover-white w3-half" id="love" data-catid="{{post.id}}">
-                                <i class="w3-margin-left fa fa-heart"></i><span id="love_count">  {{ post.love }}</span>
+                            <button class="w3-btn w3-red w3-hover-white w3-half actionables" id="love" data-catid="{{post.id}}" state="do">
+                                <i class="w3-margin-left fa fa-heart" id="love_glyph"></i><span id="love_count">  {{ post.love }}</span>
                             </button>
                         </div>
                     </div>
@@ -62,7 +61,7 @@
     <div class="w3-container w3-light-gray">
         <br><br>
     </div>
-    <div class="w3-row">
+    <div class="w3-row w3-card">
         <div class="w3-container labelComment">
             <div class="w3-container w3-red labelComment ">
                 <div class="w3-red labelComment">

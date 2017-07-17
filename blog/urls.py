@@ -11,6 +11,5 @@ urlpatterns = [
     url(r'^post/(?P<pk>[0-9]+)/edit/$', views.post_edit, name='post_edit'),
     url(r'^asdf/$', views.tst),
     url(r'^googlef6613f69040c50ea.html$', views.google),
-    url(r'^love_category/$', views.love_category, name='love_category'),
     url(r'^trash_category/$', views.trash_category, name='trash_category'),
 ]
