@@ -1,13 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% block metadata %}
-        <title>Poorly Written Blog</title>
-        <meta name="description" content="A tired computer science student that realizes he doesn't fit his own culture trying to express his thoughts and worries, sometimes wanting to be heard, but most of the time happy for not be seen.">
-        <meta name="keywords" content="random, life, culture, experience, inside out, youth">
-        <meta name="author" content="Romulo Tone">
-    {% endblock %}
-
     <div class="w3-conteiner">
         <br><br>
         {% for post in object_list %}
@@ -32,7 +25,6 @@
                     </div>
                     <div class="w3-container w3-half">
                         <article>{{ post.summary|linebreaksbr }}</article>
-                        {% lorem %}
                         <br><br>
                         <p class="readMore"><a class="w3-button w3-red w3-hover-black" href="{% url 'blog:post_detail' pk=post.pk %}">read post</a></p>
                     </div>
