@@ -1,7 +1,10 @@
 TO DO list
 
-- Arrumar metadata pros botões de social midia
+- BackGround
+- Misturar imagem no texto
+- Autenticação com media social.
+- Animação de love e garbage.
 
-=============================================================================
+==========================================================================
 - Remover paginação para scrool infito. (Duvido que eu usar a paginação)
 - Fazer um header decente, ou achar um (imagem bonitinha).

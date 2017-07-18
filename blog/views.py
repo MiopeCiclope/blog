@@ -10,7 +10,7 @@ from django.http import HttpResponse
 
 class PostListView(ListView):
     model = Post
-    paginate_by = 10
+    paginate_by = 5
     template_name = 'post_list.html'
     def get_queryset(self):
         if not self.kwargs['category']:
@@ -65,33 +65,22 @@ def google(request):
     return render(request, 'googlef6613f69040c50ea.html')
     
 def trash_category(request):
-
     cat_id = None
     if request.method == 'GET':
         cat_id = request.GET['category_id']
+        button = request.GET['type']
+        state = request.GET['action']
 
-    garbage = 0
     if cat_id:
         cat = Post.objects.get(id=int(cat_id))
-        if cat:
-            garbage = cat.garbage + 1
-            cat.garbage =  garbage
-            cat.save()
+        value = (-1, 1) [state == "do"]
+        output = ""
+        if button == "love":
+            cat.love = cat.love + value
+            output = str(cat.love)
+        elif button == "trash":
+            cat.garbage = cat.garbage + value
+            output = str(cat.garbage)
+        cat.save()
 
-    return HttpResponse(garbage)
-    
-def love_category(request):
-
-    cat_id = None
-    if request.method == 'GET':
-        cat_id = request.GET['category_id']
-
-    love = 0
-    if cat_id:
-        cat = Post.objects.get(id=int(cat_id))
-        if cat:
-            love = cat.love + 1
-            cat.love =  love
-            cat.save()
-
-    return HttpResponse(love)
+    return HttpResponse(output + " " + (("untrash", "unlove") [button == "love"], "") [state == "undo"])
