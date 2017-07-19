@@ -7,6 +7,7 @@ urlpatterns = [
     url(r'', include('blog.urls', namespace='blog')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'accounts/', include('accounts.urls', namespace='accounts')),
+    url('^markdown/', include( 'django_markdown.urls')),
 ]
 
 if settings.DEBUG:

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import slugify
+from django_markdown.models import MarkdownField
 
 def get_image_filename(instance, filename):
     title = instance.title
@@ -28,3 +29,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class MyModel(models.Model):
+    content = MarkdownField()

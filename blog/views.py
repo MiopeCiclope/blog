@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from .models import Post
+from .models import Post, MyModel
 from .forms import PostForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
@@ -58,8 +58,8 @@ def post_edit(request, pk):
     return render(request, 'post_edit.html', {'form': form})
     
 def tst(request):
-    posts = Post.objects.filter() 
-    return render(request, 'tst.html', {'posts': posts})
+    value = MyModel.objects.filter()
+    return render(request, 'tst.html', {'value': value})
 
 def google(request):
     return render(request, 'googlef6613f69040c50ea.html')

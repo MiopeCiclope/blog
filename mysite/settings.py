@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'blog',
     'accounts',
     "social_widgets",
+    'django_markdown',
 )
 
 MIDDLEWARE_CLASSES = (

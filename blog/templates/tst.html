@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-{% load staticfiles %}
-{% load social_widgets %}
+{% extends "base.html" %}
+{% load django_markdown %}
 
- <html xmlns='http://www.w3.org/1999/xhtml' xmlns:og='http://ogp.me/ns#'>
-    <head>
-        <meta property="og:title" content="Otimizando seu site para publicação nas redes sociais | Underground WebDev">
-        <meta property="og:description" content="A dica é muito simples e faz com que o link do seu site tenha melhor visibilidade nas redes sociais como Facebook, LinkedIn e Google+">
-        <meta property="og:url" content="http://udgwebdev.com/otimizando-seu-site-para-publicacao-nas-redes-sociais">
-        <meta property="og:site_name" content="Underground WebDev">
-        <meta property='og:image' content='http://udgwebdev.com/images/udgwebdev-logo-128.png'/>
-        <meta property="og:type" content="website">
-    </head>
-    <body style="height:100%; width:100%">
-        The things I treasure most in life can not be taken away
-        {% social_widget_render "facebook/share_button.html" href="" layout="button" %}
-        {% social_widget_render "twitter/share_button.html" href="" %}
-    </body>
-</html> 
+{% block content %}
+    {% for a in value %}
+        <div>
+            {{a.content|markdown}}        
+        </div>
+    {% endfor %}
+{% endblock %}
