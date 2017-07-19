@@ -58,7 +58,7 @@ def post_edit(request, pk):
     return render(request, 'post_edit.html', {'form': form})
     
 def tst(request):
-    value = MyModel.objects.filter()
+    value = MyModel.objects.get(id=1)
     return render(request, 'tst.html', {'value': value})
 
 def google(request):
