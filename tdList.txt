@@ -1,7 +1,7 @@
 TO DO list
 
+- Mudar campo de texto para markdown.
 - BackGround
-- Misturar imagem no texto
 - Autenticação com media social.
 - Animação de love e garbage.
 

@@ -11,7 +11,7 @@ def get_image_filename(instance, filename):
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=200)
-    text = models.TextField()
+    content = MarkdownField(default=False)
     created_date = models.DateTimeField(
             default=timezone.now)
     published_date = models.DateTimeField(
@@ -29,6 +29,3 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
-class MyModel(models.Model):
-    content = MarkdownField()

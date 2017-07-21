@@ -32,7 +32,6 @@
                     </div>
                     <div class="w3-container w3-half">
                         <article>{{ post.summary|linebreaksbr }}</article>
-                        {% lorem %}
                         <br><br>
                         <p class="readMore"><a class="w3-button w3-red w3-hover-black" href="{% url 'blog:post_detail' pk=post.pk %}">read post</a></p>
                     </div>

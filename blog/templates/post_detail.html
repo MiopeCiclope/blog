@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load social_widgets %}
+{% load django_markdown %}
 
 {% block content %}
     <br><br>
@@ -29,10 +30,9 @@
     						{{ post.caption }}
     					</div>
 					</div>
-					<div>
+					<div id="tst">
     					<br><br>
-                        <article>{{ post.text|linebreaksbr }}</article>
-                        {% lorem 3 p %}
+                        {{ post.content|markdown }}
                         <br><br>
 					</div>
                 </div>
