@@ -1,19 +1,62 @@
-<!DOCTYPE html>
-{% load staticfiles %}
+{% extends "base.html" %}
+{% load django_markdown %}
 {% load social_widgets %}
 
- <html xmlns='http://www.w3.org/1999/xhtml' xmlns:og='http://ogp.me/ns#'>
-    <head>
-        <meta property="og:title" content="Otimizando seu site para publicação nas redes sociais | Underground WebDev">
-        <meta property="og:description" content="A dica é muito simples e faz com que o link do seu site tenha melhor visibilidade nas redes sociais como Facebook, LinkedIn e Google+">
-        <meta property="og:url" content="http://udgwebdev.com/otimizando-seu-site-para-publicacao-nas-redes-sociais">
-        <meta property="og:site_name" content="Underground WebDev">
-        <meta property='og:image' content='http://udgwebdev.com/images/udgwebdev-logo-128.png'/>
-        <meta property="og:type" content="website">
-    </head>
-    <body style="height:100%; width:100%">
-        The things I treasure most in life can not be taken away
-        {% social_widget_render "facebook/share_button.html" href="" layout="button" %}
-        {% social_widget_render "twitter/share_button.html" href="" %}
-    </body>
-</html> 
+{% block content %}
+    <br><br>
+    <div class="w3-conteiner w3-card">
+        <div class= "w3-white w3-conteiner" id="tst">
+            <div class="w3-row w3-black">
+                <div class="w3-container w3-twothird w3-black">
+                    <h2 >qwer</h2>
+                </div>
+                <div class="w3-container w3-third w3-black">
+                </div>
+            </div>    
+            <div class="w3-container postcontainer">
+                <div class="w3-container postcontainer">
+					<div>
+    					<br><br>
+                            {{value.content|markdown}}
+                        <br><br>
+					</div>
+                </div>
+                <hr class="style11">
+                <span class="w3-small">Don't click these buttons</span>
+                <br><br>
+                <div class="w3-row">
+                    <div class="w3-half">
+                        <div class="w3-row">
+                            <button class="w3-btn w3-black w3-hover-white w3-half actionables" id="trash" data-catid="{{post.id}}" state="do"> 
+                                <i class="w3-margin-left fa fa-trash" id="trash_glyph"></i><span id="trash_count">  {{ post.garbage }}</span>
+                            </button>
+                            <button class="w3-btn w3-red w3-hover-white w3-half actionables" id="love" data-catid="{{post.id}}" state="do">
+                                <i class="w3-margin-left fa fa-heart" id="love_glyph"></i><span id="love_count">  {{ post.love }}</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-social-links">
+                        {% social_widget_render "facebook/share_button.html" href="" layout="button" %}
+                        {% social_widget_render "twitter/share_button.html" href="" %}
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </div>
+    <div class="w3-container w3-light-gray">
+        <br><br>
+    </div>
+    <div class="w3-row w3-card">
+        <div class="w3-container labelComment">
+            <div class="w3-container w3-red labelComment ">
+                <div class="w3-red labelComment">
+                    <h4 id="paddingcomments">Leave a Comment</h4>
+                </div>
+                <div class="w3-container w3-white">
+                    <div class="fb-comments" 	
+data-colorscheme="light" data-href="http://demo-project-miopeciclope-2.c9.io/post/{{ post.pk }}" data-width="100%" data-numposts="5"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import slugify
+from django_markdown.models import MarkdownField
 
 def get_image_filename(instance, filename):
     title = instance.title
@@ -10,7 +11,7 @@ def get_image_filename(instance, filename):
 class Post(models.Model):
     author = models.ForeignKey('auth.User')
     title = models.CharField(max_length=200)
-    text = models.TextField()
+    content = MarkdownField(default=False)
     created_date = models.DateTimeField(
             default=timezone.now)
     published_date = models.DateTimeField(

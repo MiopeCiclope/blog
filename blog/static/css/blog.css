@@ -124,3 +124,24 @@ html, body {
     border: 0;
     margin-bottom: 0;
 }
+
+#tst p, h2 {
+    font-family:  Verdana, Geneva, sans-serif; 
+}
+
+#tst img {
+    display:block;
+    margin:auto;
+    max-width: 500px;
+    max-height: 300px;
+}
+
+#tst a {
+    font-weight: bold;
+    color: rgb(226, 27, 27);
+}
+
+#tst a:hover {
+    text-decoration: none;
+    color: gray;
+}
