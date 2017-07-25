@@ -145,3 +145,9 @@ html, body {
     text-decoration: none;
     color: gray;
 }
+
+
+#map {
+    display:block;
+    height: 500px;
+}

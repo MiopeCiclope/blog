@@ -58,7 +58,7 @@ def post_edit(request, pk):
     return render(request, 'post_edit.html', {'form': form})
     
 def tst(request):
-    print("not implemented")
+    return render(request, 'tst.html')
 
 def google(request):
     return render(request, 'googlef6613f69040c50ea.html')
