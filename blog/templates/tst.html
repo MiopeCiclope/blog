@@ -5,74 +5,35 @@
     <script>
     /*global google*/
         function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-            center: 
-            {
-                lat: 53,
-                lng: 0
-            },
-            zoom: 6,
-            mapTypeId: 'terrain'
-        });
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 16,
+                center: new google.maps.LatLng(-33.91722, 151.23064),
+                mapTypeId: 'roadmap'
+            });
             
-        var line = new google.maps.Polyline({
-            path: [
-                {
-                    lat: 51.4700,
-                    lng: 0.4543
-                }, 
-                {
-                    lat: 50.1109,
-                    lng: 8.6821
+            // var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+            var icons = {
+                horse : {
+                    icon: 'http://demo-project-miopeciclope-2.c9.io/media/horse.png'
                 }
-            ],
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 1, // change this value to show / hide the line
-            icons: [
+            };
+            
+            var features = [
                 {
-                    icon: lineSymbol,
-                    offset: '100%'
+                    position: new google.maps.LatLng(-33.91721, 151.22630),
+                    type: 'horse'
                 }
-            ],
-            map: map
-        });
-        
-            animateCircle(line);
+            ];
+            
+            // Create markers.
+            features.forEach(function(feature) {
+                var marker = new google.maps.Marker({
+                        position: feature.position,
+                        icon: icons[feature.type].icon,
+                        map: map
+                });
+            });
         }
-        
-        //var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
-        var icons = {
-            horse : {
-                icon: 'http://demo-project-miopeciclope-2.c9.io/media/horse.png'
-            }
-        };
-        
-        var features = [
-            {
-                position: new google.maps.LatLng(-33.91721, 151.22630),
-                type: 'horse'
-            }
-        ];
-        
-
-        var marker = new google.maps.Marker({
-            position: feature.position,
-            icon: icons[feature.type].icon,
-            map: map
-        });
-
-        function animateCircle(line) {
-            var count = 0;
-            window.setInterval(function() {
-                count = (count + 1) % 200; // change this to 1000 to only show the line once
-                var icons = line.get('icons');
-                icons[0].offset = (count / 2) + '%';
-            line.set('icons', icons);
-            }, 100); // change this value to change the speed
-        }            
-            
-
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxKEUQKP8zilhcYkQNoDHeXYTlpDjYrYw&callback=initMap"
     async defer></script>
