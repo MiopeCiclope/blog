@@ -1,13 +1,5 @@
 TO DO list
 
-Maps Stuff
-
-- Fazer andar
-- Deixar rastro
-
-
-
-
 - BackGround
 - Autenticação com media social.
 - Animação de love e garbage.

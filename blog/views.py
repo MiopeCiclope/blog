@@ -13,14 +13,19 @@ class PostListView(ListView):
     paginate_by = 5
     template_name = 'post_list.html'
     def get_queryset(self):
-        if not self.kwargs['category']:
-            return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
-        elif self.kwargs['category'] == 'garbage':
-            return Post.objects.filter(published_date__lte=timezone.now()).order_by('-garbage')
-        elif self.kwargs['category'] == 'love':
-            return Post.objects.filter(published_date__lte=timezone.now()).order_by('-love')
-        else:
-            return Post.objects.filter(drunk=True).order_by('-published_date')
+        return Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
+
+class GarbageView(PostListView):
+    def get_queryset(self):
+        return Post.objects.filter(published_date__lte=timezone.now()).order_by('-garbage')
+
+class LoveView(PostListView):
+    def get_queryset(self):
+        return Post.objects.filter(published_date__lte=timezone.now()).order_by('-love')
+
+class DrunkView(PostListView):
+    def get_queryset(self):
+        return Post.objects.filter(drunk=True).order_by('-published_date')
         
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
