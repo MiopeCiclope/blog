@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<body onload="drawPlane();">
+		<canvas id="myCanvas" width="1000" height="500" style="display: block;  background-color: black;"></canvas>
+		<script>
+			function Vertex(x, y, z) {
+				this.x = function() {
+					return x;
+				};
+				this.y = function() {
+					return y;
+				};
+				this.z = function() {
+					return z;
+				};
+			}
+			
+			function Polygon(vertices) {
+				this.count = function() {
+					return vertices.length;
+					};
+					this.vertex = function(i) {
+					if (i < 0) {
+						throw new Error('Vertex index must be a positive integer')
+					}
+					if (i >= vertices.length) {
+						throw new Error('Vertex index out of bounds');
+					}
+					return vertices[i];
+				};
+			}
+			
+			function drawPolygon(context, polygon, fx, fy, color) {
+				context.beginPath();
+				
+				// The -1 * is used to flip the y coordinate as y value increases
+				// as you move down the canvas.
+				context.moveTo(fx(polygon.vertex(0)), -1 * fy(polygon.vertex(0)));
+				for (var i = 1; i < polygon.count(); ++i) {
+					context.lineTo(fx(polygon.vertex(i)), -1 * fy(polygon.vertex(i)));
+				}
+				context.closePath();
+				context.strokeStyle = color;
+				context.stroke();
+			}
+			
+			//Poliedro
+			var vertices = [
+				new Vertex(-50, -50, -50), // Front-Bottom-Left
+				new Vertex( 50, -50, -50), // Front-Bottom-Right
+				new Vertex(-50, -50,  50), // Rear-Bottom-Left
+				new Vertex( 50, -50,  50), // Rear-Bottom-Right
+				new Vertex(-50,  50, -50), // Front-Top-Left
+				new Vertex( 50,  50, -50), // Front-Top-Right
+				new Vertex(-50,  50,  50), // Rear-Top-Left
+				new Vertex( 50,  50,  50)  // Rear-Top-Right
+			];
+			
+			var faces = [
+				new Polygon([vertices[0], vertices[1], vertices[5], vertices[4]]), // Front
+				new Polygon([vertices[2], vertices[3], vertices[7], vertices[6]]), // Rear
+				new Polygon([vertices[0], vertices[1], vertices[3], vertices[2]]), // Bottom
+				new Polygon([vertices[4], vertices[5], vertices[7], vertices[6]]), // Top
+				new Polygon([vertices[0], vertices[2], vertices[6], vertices[4]]), // Left
+				new Polygon([vertices[1], vertices[3], vertices[7], vertices[5]])  // Right
+			];
+			
+			//Coordenadas dos eixos
+			var verticesEixo = [
+				new Vertex(0, 0, 0),
+				new Vertex(1000, 0, 0),
+				new Vertex(0, 0, 1000),
+				new Vertex(0, 1000, 0),
+				new Vertex(-1000, 0, 0),
+				new Vertex(0, 0, -1000),
+				new Vertex(0, -1000, 0)
+			];
+			
+			var facesEixo = [
+				new Polygon([verticesEixo[0], verticesEixo[1]]),
+				new Polygon([verticesEixo[0], verticesEixo[2]]),
+				new Polygon([verticesEixo[0], verticesEixo[3]]),
+				new Polygon([verticesEixo[0], verticesEixo[4]]),
+				new Polygon([verticesEixo[0], verticesEixo[5]]),
+				new Polygon([verticesEixo[0], verticesEixo[6]])
+			];
+			
+			var canvas = document.getElementById('myCanvas');
+			var context = canvas.getContext('2d');
+			
+			var angle = Math.PI/4
+			var a = 0.5 * Math.cos(angle);
+			var b = 0.5 * Math.sin(angle);
+			
+			var fx = function(vertex) {
+				return vertex.x() + vertex.z() * a;
+			};
+			var fy = function(vertex) {
+				return vertex.y() + vertex.z() * b;
+			};
+			
+			// Makes 0 the center of the canvas
+			context.translate(canvas.width / 2, canvas.height / 2);
+			
+			for (var i = 0; i < faces.length; ++i) {
+				drawPolygon(context, faces[i], fx, fy, "green");
+			}
+			
+			for (var i = 0; i < facesEixo.length; ++i) {
+				drawPolygon(context, facesEixo[i], fx, fy, "white");
+			}
+
+			
+		</script>
+	</body>
+</html>
