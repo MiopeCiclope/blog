@@ -1,9 +1,30 @@
 <!DOCTYPE html>
 <html>
-	<body onload="drawPlane();">
-		<canvas id="myCanvas" width="1000" height="500" style="display: block;  background-color: black;"></canvas>
+<header>
+<link type="text/css" rel="stylesheet" href="dat-gui-swec.css">
+</header>
+    <style>        
+		#gui_container{
+          position: absolute;
+          top: 0%;
+          left: 0%;
+        }
+        
+        * { margin:0; padding:0; } /* to remove the top and left whitespace */
+
+        html, body { width:100%; height:100%; }</style>
+	<body>
+		<canvas id="myCanvas" style="display: block;  background-color: #332f32;"></canvas>
+		<div id="gui_container"></div>
+		<script src="dat.gui.js"></script>
 		<script>
-			function Vertex(x, y, z) {
+		
+		//Globais
+			var gProj = "V";
+			var gAngle = Math.PI/6;
+			var figureList = []
+			
+			function Vertex(x, y, z, w) {
 				this.x = function() {
 					return x;
 				};
@@ -13,6 +34,31 @@
 				this.z = function() {
 					return z;
 				};
+				this.w = function() {
+					return w;
+				};
+			}
+			
+			function fx(vertex) {
+				if (gProj == "Axiometrica"){
+					var a = 0.707
+					return vertex.x() * a - vertex.z() * a;
+				
+				} else {
+					var a = 0.5 * Math.cos(gAngle);
+					return vertex.x() - vertex.z() * a;
+				}
+			}
+			
+			function fy(vertex) {
+				if (gProj == "Axiometrica"){
+					var b = 0.408
+					return vertex.y() * 2*b - vertex.z() * b - vertex.x() * b;
+				
+				} else {
+					var b = 0.5 * Math.sin(gAngle);
+					return vertex.y() - vertex.z() * b;
+				}
 			}
 			
 			function Polygon(vertices) {
@@ -30,7 +76,7 @@
 				};
 			}
 			
-			function drawPolygon(context, polygon, fx, fy, color) {
+			function drawPolygon(context, polygon, color) {
 				context.beginPath();
 				
 				// The -1 * is used to flip the y coordinate as y value increases
@@ -44,73 +90,631 @@
 				context.stroke();
 			}
 			
-			//Poliedro
-			var vertices = [
-				new Vertex(-50, -50, -50), // Front-Bottom-Left
-				new Vertex( 50, -50, -50), // Front-Bottom-Right
-				new Vertex(-50, -50,  50), // Rear-Bottom-Left
-				new Vertex( 50, -50,  50), // Rear-Bottom-Right
-				new Vertex(-50,  50, -50), // Front-Top-Left
-				new Vertex( 50,  50, -50), // Front-Top-Right
-				new Vertex(-50,  50,  50), // Rear-Top-Left
-				new Vertex( 50,  50,  50)  // Rear-Top-Right
-			];
+			function drawPoint(context, vertice) {
+				context.beginPath();
+				context.moveTo(fx(vertice), -1 * fx(vertice));
+				context.arc(fx(vertice),  -1 * fy(vertice), 3, 0, 2 * Math.PI, false);
+				context.fillStyle = 'black';
+				context.fill();
+				context.closePath();
+			}
 			
-			var faces = [
-				new Polygon([vertices[0], vertices[1], vertices[5], vertices[4]]), // Front
-				new Polygon([vertices[2], vertices[3], vertices[7], vertices[6]]), // Rear
-				new Polygon([vertices[0], vertices[1], vertices[3], vertices[2]]), // Bottom
-				new Polygon([vertices[4], vertices[5], vertices[7], vertices[6]]), // Top
-				new Polygon([vertices[0], vertices[2], vertices[6], vertices[4]]), // Left
-				new Polygon([vertices[1], vertices[3], vertices[7], vertices[5]])  // Right
-			];
+			function drawPolyedro(context, vertices, faces, color){
+				for (var i = 0; i < faces.length; ++i) {
+					drawPolygon(context, new Polygon([vertices[faces[i][0]], vertices[faces[i][1]]]), color);
+				}
+			}
 			
-			//Coordenadas dos eixos
+			//multiplica as matrizes para fazer a rotacao
+			function multiplyMatrices(a, b) {
+			    if (!Array.isArray(a) || !Array.isArray(b) || !a.length || !b.length) {
+			        throw new Error('arguments should be in 2-dimensional array format');
+			    }
+			
+			    var x = a.length,
+			        z = a[0].length,
+			        y = b[0].length;
+			
+			    if (b.length !== z) {
+			        // XxZ & ZxY => XxY
+			        throw new Error('number of columns in the first matrix should be the same as the number of rows in the second');
+			    }
+			
+			    var productRow = Array.apply(null, new Array(y)).map(Number.prototype.valueOf, 0);
+			    var product = new Array(x);
+			    for (var p = 0; p < x; p++) {
+			        product[p] = productRow.slice();
+			    }
+			
+			    for (var i = 0; i < x; i++) {
+			        for (var j = 0; j < y; j++) {
+			            for (var k = 0; k < z; k++) {
+			                product[i][j] += a[i][k] * b[k][j];
+			            }
+			        }
+			    }
+			    return product;
+			}
+
+			function figure (points, lines, color) {
+				this.vertices = points;
+				this.lines = lines;
+				this.color = color;
+			}
+			
+			function closestPoint(figure)
+			{
+				var closest = 0;
+				var lastIth = 0;
+				for (var i = 0; i < figure.vertices.length; ++i) {
+					var dist = Math.sqrt(Math.pow(figure.vertices[i].x(),2) + Math.pow(figure.vertices[i].y(),2) + Math.pow(figure.vertices[i].z(),2))
+					if ((i == 0) | (dist < closest)) {
+						closest = dist;
+						lastIth = i;
+					}
+				}
+				//console.log (figure.vertices[lastIth].x() + "  " + figure.vertices[lastIth].y() + "  " + figure.vertices[lastIth].z() + "  ");
+				return figure.vertices[lastIth];
+			}
+			
+			function translate (x, y, z, vertice, context, faces, color) {
+				var trans = [
+					[1, 0, 0, 0],
+					[0, 1, 0, 0],
+					[0, 0, 1, 0],
+					[x, y, z, 1]
+				];
+				
+				for (var i = 0; i < vertice.length; ++i) {
+					newPoint = multiplyMatrices([[vertice[i].x(), vertice[i].y(), vertice[i].z(), vertice[i].w()]], trans);
+					vertice[i] = new Vertex(newPoint[0][0], newPoint[0][1], newPoint[0][2], 1);
+				}
+				
+				//drawPolyedro(context, vertice, faces, color);
+				return new figure(vertice, faces, color);
+				//return vertice;
+			}
+			
+			function scale (prop, vertice, context, faces, color) {
+				var trans = [
+					[prop, 0, 0, 0],
+					[0,prop, 0, 0],
+					[0, 0, prop, 0],
+					[0, 0, 0, 1]
+				];
+				
+				var anchor = closestPoint(new figure(vertice, color, "red"));
+				var lfig = translate(-anchor.x(), -anchor.y(), -anchor.z(), vertice, context, faces, color);
+				
+				for (var i = 0; i < vertice.length; ++i) {
+					newPoint = multiplyMatrices([[vertice[i].x(), vertice[i].y(), vertice[i].z(), vertice[i].w()]], trans);
+					vertice[i] = new Vertex(newPoint[0][0], newPoint[0][1], newPoint[0][2], 1);
+				}
+				
+				//drawPolyedro(context, vertice, faces, color);
+				
+				return translate(anchor.x(), anchor.y(), anchor.z(), vertice, context, faces, color);
+			}
+			
+			//rotaciona
+			function rotate(angle, axys, vertice, context, faces, color){
+				var coseno = Math.cos(angle);
+				var seno = Math.sin(angle);
+				var RMatrix;
+				
+				if (axys == "X") {
+					RMatrix = [
+						[1, 0, 0, 0],
+						[0, coseno, -seno, 0],
+						[0, seno, coseno, 0],
+						[0, 0, 0, 1]
+					];
+				} else if (axys == "Y") {
+					RMatrix = [
+						[coseno, 0, seno, 0],
+						[0, 1, 0, 0],
+						[-seno, 0, coseno, 0],
+						[0, 0, 0, 1]
+					];
+				} else {
+					RMatrix = [
+						[ coseno, -seno, 0, 0],
+						[ seno, coseno, 0, 0],
+						[0, 0, 1, 0],
+						[0, 0, 0, 1]
+					];
+				}
+				
+				var anchorl = closestPoint(new figure(vertice, color, "red"));
+				
+				var lfig = translate(-anchorl.x(), -anchorl.y(), -anchorl.z(), vertice, context, faces, color);
+				
+				for (var i = 0; i < vertice.length; ++i) {
+					newPoint = multiplyMatrices([ [lfig.vertices[i].x(), lfig.vertices[i].y(), lfig.vertices[i].z(), lfig.vertices[i].w()]], RMatrix);
+					vertice[i] = new Vertex(newPoint[0][0], newPoint[0][1], newPoint[0][2], 1);
+				}
+				
+				//drawPolyedro(context, vertice, faces, color);
+				return translate(anchorl.x(), anchorl.y(), anchorl.z(), vertice, context, faces, color);
+			}
+			
+			function cisal (a, b, c, d, e, f, vertice, context, faces, color) {
+				var trans = [
+					[1, a, b, 0],
+					[c, 1, d, 0],
+					[e, f, 1, 0],
+					[0, 0, 0, 1]
+				];
+				
+				var anchor = closestPoint(new figure(vertice, color, "red"));
+				var lfig = translate(-anchor.x(), -anchor.y(), -anchor.z(), vertice, context, faces, color);
+				
+				for (var i = 0; i < vertice.length; ++i) {
+					newPoint = multiplyMatrices([[vertice[i].x(), vertice[i].y(), vertice[i].z(), vertice[i].w()]], trans);
+					vertice[i] = new Vertex(newPoint[0][0], newPoint[0][1], newPoint[0][2], 1);
+				}
+				
+				//drawPolyedro(context, vertice, faces, color);
+				
+				//return new figure(vertice, faces, color);
+				return translate(anchor.x(), anchor.y(), anchor.z(), vertice, context, faces, color);
+			}
+			
+			function perspective (plane, vertice, faces, color, context) {
+				var trans;
+				var tmp = [];
+				
+				for (var i = 0; i < vertice.length; ++i) {
+					tmp.push(new Vertex(vertice[i].x(), vertice[i].y(), vertice[i].z(), vertice[i].w()));
+				}
+				
+				if (plane == "XY") {
+					var trans = [
+						[1, 0, 0, 0],
+						[0, 1, 0, 0],
+						[0, 0, 0, 0],
+						[0, 0, 0, 1]
+					];
+				
+				} else if (plane == "YZ") {
+					var trans = [
+						[0, 0, 0, 0],
+						[0, 1, 0, 0],
+						[0, 0, 1, 0],
+						[0, 0, 0, 1]
+					];
+					
+				} else {
+					var trans = [
+						[1, 0, 0, 0],
+						[0, 0, 0, 0],
+						[0, 0, 1, 0],
+						[0, 0, 0, 1]
+					];
+				}
+				
+				for (var i = 0; i < tmp.length; ++i) {
+					newPoint = multiplyMatrices([[tmp[i].x(), tmp[i].y(), tmp[i].z(), tmp[i].w()]], trans);
+					tmp[i] = new Vertex(newPoint[0][0], newPoint[0][1], newPoint[0][2], 1);
+				}
+				
+				drawPolyedro(context, tmp, faces, color);
+				//return new figure(tmp, faces, color);
+			}
+
+			function perspectivaPoint (plane, point, vertice, faces, color, context){
+				var trans;
+				var tmp = [];
+				
+				for (var i = 0; i < vertice.length; ++i) {
+					tmp.push(new Vertex(vertice[i].x(), vertice[i].y(), vertice[i].z(), vertice[i].w()));
+				}
+				
+				if (plane == "YZ") {
+					var trans = [
+						[0, Math.abs(point.y())/Math.abs(point.x()), Math.abs(point.z())/Math.abs(point.x()), 1/Math.abs(point.x())],
+						[0, 1, 0, 0],
+						[0, 0, 1, 0],
+						[0, 0, 0, 1]
+					];					
+				} else if (plane == "XZ") {
+					var trans = [
+						[1, 0, 0, 0],
+						[Math.abs(point.x())/Math.abs(point.y()), 0, Math.abs(point.z())/Math.abs(point.y()), 1/Math.abs(point.y())],
+						[0, 0, 1, 0],
+						[0, 0, 0, 1]
+					];					
+				} else {
+					var trans = [
+						[1, 0, 0, 0],
+						[0, 1, 0, 0],
+						[Math.abs(point.x())/Math.abs(point.z()), Math.abs(point.y())/Math.abs(point.z()), 0, 1/Math.abs(point.z())],
+						[0, 0, 0, 1]
+					];
+				}
+				
+				for (var i = 0; i < tmp.length; ++i) {
+					newPoint = multiplyMatrices([[tmp[i].x(), tmp[i].y(), tmp[i].z(), tmp[i].w()]], trans);
+					
+					lineVertices = [
+						tmp[i],
+						point
+					]
+					
+					lineFaces = [
+						[0, 1]
+					]
+					
+					drawPolyedro(context, lineVertices, lineFaces, "gray");	
+					
+					tmp[i] = new Vertex(newPoint[0][0]/newPoint[0][3], newPoint[0][1]/newPoint[0][3], newPoint[0][2]/newPoint[0][3], 1);
+				}
+				
+				drawPolyedro(context, tmp, faces, color);				
+			}
+
+			function loadScene (figureList) {
+				context.putImageData(imageData, 0, 0);
+				for (i = 0; i < figureList.length; i++) {
+					drawPolyedro(context, figureList[i].vertices, figureList[i].lines, figureList[i].color);
+				}
+			}
+			
+			function createPanel() {
+				var panel = new dat.GUI( { width: 310 } );
+                var gui = new dat.GUI({ autoPlace: false });
+                gui.domElement.id = 'gui';
+                gui_container.appendChild(gui.domElement);
+                var fsolid;
+				var solidV = [];
+				var solidF = [];
+
+				var points = {};
+				var lines = {
+					'Point1' : 0,
+					'Point2' : 0
+				};
+				
+				var npoints = 0;
+				
+				settings = {
+					'Camera' : 'Normal',
+					'Points' : 0,
+					'Rotation Axis' : 'X',
+					'RotationAngle' : Math.PI/2,
+					'X Axis' : 0,
+					'Y Axis' : 0,
+					'Z Axis' : 0,
+					'Proportion' : 1.0,
+					'X - Y' : 0,
+					'X - Z' : 0,
+					'Y - X' : 0,
+					'Y - Z' : 0,
+					'Z - X' : 0,
+					'Z - Y' : 0,
+					'Orthogonal XY' : false,
+					'Orthogonal ZY' : false,
+					'Orthogonal YZ' : false,
+					'Point X-coordinate' : 0,
+					'Point Y-coordinate' : 0,
+					'Point Z-coordinate' : 0,
+					'Perspective Plane' : 'XY',
+					'last' : 0,
+					'ADD' : function() {
+						if (0 < npoints){
+							var v = new Vertex(points['Point X'], points['Point Y'], points['Point Z'], 1);
+							drawPoint(context, v);
+							solidV.push(v);
+							npoints = npoints-1;
+							settings['Points'] = npoints;
+							console.log(npoints);
+						}
+						else {
+							console.log('FOI');
+						}
+					},
+					'DRAW' : function(){
+						solidF.push([lines['Point1'], lines['Point2']]);
+						drawPolygon(context, new Polygon([solidV[lines['Point1']], solidV[lines['Point2']]] ), "black" );
+					},
+					'DONE' : function() {
+						var solid = new figure(solidV, solidF, "green");
+						figureList.push(solid);
+						loadScene(figureList);
+					},
+					
+					'Standard' : function() {
+						//Poliedro
+						var vertices = [			
+							new Vertex( 150, 150, 250, 1), 		// Front-Bottom-Left
+							new Vertex( 250, 150, 250, 1), 	// Front-Bottom-Righ
+							new Vertex( 150, 150, 150, 1), 		// Rear-Bottom-Left
+							new Vertex( 250, 150, 150, 1), 		// Rear-Bottom-Right
+							new Vertex( 150, 250, 250, 1), 	// Front-Top-Left
+							new Vertex( 250, 250, 250, 1), 	// Front-Top-Right
+							new Vertex( 150, 250, 150, 1), 		// Rear-Top-Left
+							new Vertex( 250, 250, 150, 1)  	// Rear-Top-Right				
+						];
+						
+						var faces = [
+							[0, 1],
+							[2, 3],
+							[4, 5],
+							[0, 2],
+							[1, 3], 
+							[7, 6],
+							[6, 4],
+							[0, 4],
+							[6, 2],
+							[7, 5],
+							[3, 7],
+							[1, 5]				
+						];
+						
+						solid = new figure(vertices, faces, "green");
+						figureList.push(solid);
+						loadScene (figureList);						
+					}
+				};
+				
+				var fFigure = gui.addFolder( 'New Polyedro' );
+				fFigure.add( settings, 'Points').onFinishChange(function(value){	
+					npoints = value;
+					if (value != settings['last']){
+						settings['last'] = value;
+						points['Point X'] = 0;
+						points['Point Y'] = 0;
+						points['Point Z'] = 0;
+						fFigure.add (points, 'Point X');
+						fFigure.add (points, 'Point Y');
+						fFigure.add (points, 'Point Z');
+						fFigure.add (settings, 'ADD');
+					}
+				});
+				var Plines = gui.addFolder( 'Input Lines' );
+				Plines.add (lines, 'Point1').onChange(function(value){
+					lines['Point1'] = value;
+				});
+				Plines.add (lines, 'Point2').onChange(function(value){
+					lines['Point2'] = value;
+				});
+				Plines.add (settings, 'DRAW');
+				gui.add(settings, 'DONE');
+				gui.add(settings, 'Standard');
+				
+				
+				
+				panel.add(settings, 'Camera', [ 'Normal', 'Axiometrica' ] ).onFinishChange(function(value){
+					settings['Camera'] = value;
+					gProj = value;
+					loadScene (figureList);
+					
+				});
+								
+				// Campos da Rotação
+				var fRotate = panel.addFolder( 'Rotate' );
+				fRotate.add( settings, 'Rotation Axis', [ 'X', 'Y', 'Z' ] ).onFinishChange(function(value){
+					settings['Rotation Axis'] = value;
+				});
+				
+				fRotate.add( settings, 'RotationAngle').onChange(function(value){
+					//console.log("Quanto gira: " + value + " Onde gira: " + settings['Rotation Axis'] );
+					settings['RotationAngle'] = value;
+					var lfigure = figureList.pop();
+					lfigure = rotate(value, settings['Rotation Axis'], lfigure.vertices, context, lfigure.lines, "red");
+					panel.RotationAngle = settings['RotationAngle'];
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				// Campos da Translação
+				var fTranslate = panel.addFolder( 'Translate' );
+				fTranslate.add( settings, 'X Axis' ).onFinishChange(function(value) {				
+					settings['X Axis'] = value;
+					console.log("Translate X: value: " + value);
+					var lfigure = figureList.pop();
+					lfigure = translate (value, 0, 0, lfigure.vertices, context, lfigure.lines, "red");
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				fTranslate.add( settings, 'Y Axis' ).onFinishChange(function(value){
+					settings['Y Axis'] = value;
+					console.log("Translate Y: value: " + value);
+					var lfigure = figureList.pop();
+					lfigure = translate (0, value, 0, lfigure.vertices, context, lfigure.lines, "red");
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				fTranslate.add( settings, 'Z Axis' ).onFinishChange(function(value){
+					settings['Z Axis'] = value;
+					console.log("Translate Z: value: " + value);
+					var lfigure = figureList.pop();
+					lfigure = translate (0, 0, value, lfigure.vertices, context, lfigure.lines, "red");
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				// Campos da Escala
+				var fScale = panel.addFolder( 'Scale' );
+				fScale.add( settings, 'Proportion' ).onFinishChange(function(value){
+					settings['Proportion'] = value;
+					var lfigure = figureList.pop();
+					lfigure = scale (value, lfigure.vertices, context, lfigure.lines, "red");
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				// Campos do Cisalhamento
+				var fShear = panel.addFolder( 'Shear(Direction - Proportion)' );
+				fShear.add( settings, 'X - Y' ).onFinishChange(function(value){
+					settings['X - Y'] = value;
+					var lfigure = figureList.pop();
+					lfigure = cisal (settings['X - Y'], settings['X - Z'], settings['Y - X'], settings['Y - Z'], settings['Z - X'], settings['Z - Y'], lfigure.vertices, context, lfigure.lines, "red")
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				fShear.add( settings, 'X - Z' ).onFinishChange(function(value){
+					settings['X - Z'] = value;
+					var lfigure = figureList.pop();
+					lfigure = cisal (settings['X - Y'], settings['X - Z'], settings['Y - X'], settings['Y - Z'], settings['Z - X'], settings['Z - Y'], lfigure.vertices, context, lfigure.lines, "red")
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				fShear.add( settings, 'Y - X' ).onFinishChange(function(value){
+					settings['Y - X'] = value;
+					var lfigure = figureList.pop();
+					lfigure = cisal (settings['X - Y'], settings['X - Z'], settings['Y - X'], settings['Y - Z'], settings['Z - X'], settings['Z - Y'], lfigure.vertices, context, lfigure.lines, "red")
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				fShear.add( settings, 'Y - Z' ).onFinishChange(function(value){
+					settings['Y - Z'] = value;
+					var lfigure = figureList.pop();
+					lfigure = cisal (settings['X - Y'], settings['X - Z'], settings['Y - X'], settings['Y - Z'], settings['Z - X'], settings['Z - Y'], lfigure.vertices, context, lfigure.lines, "red")
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				fShear.add( settings, 'Z - X' ).onFinishChange(function(value){
+					settings['Z - X'] = value;
+					var lfigure = figureList.pop();
+					lfigure = cisal (settings['X - Y'], settings['X - Z'], settings['Y - X'], settings['Y - Z'], settings['Z - X'], settings['Z - Y'], lfigure.vertices, context, lfigure.lines, "red")
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				fShear.add( settings, 'Z - Y' ).onFinishChange(function(value){
+					settings['Z - Y'] = value;
+					var lfigure = figureList.pop();
+					lfigure = cisal (settings['X - Y'], settings['X - Z'], settings['Y - X'], settings['Y - Z'], settings['Z - X'], settings['Z - Y'], lfigure.vertices, context, lfigure.lines, "red")
+					figureList.push(lfigure);
+					loadScene (figureList);
+				});
+				
+				// Campos da Perspectiva
+				var fPerspective = panel.addFolder( 'Perspective' );
+				fPerspective.add( settings, 'Orthogonal XY' ).onChange(function(value){
+					settings['Orthogonal XY'] = value;
+					var lfigure = figureList.pop();
+					if (value){
+						perspective ("XY", lfigure.vertices, lfigure.lines, "yellow", context);
+						figureList.push(lfigure);
+					}
+					else{
+						figureList.push(lfigure);
+						loadScene (figureList);
+					}
+				});
+				
+				fPerspective.add( settings, 'Orthogonal ZY' ).onChange(function(value){
+					settings['Orthogonal ZY'] = value;
+					var lfigure = figureList.pop();
+					if (value){
+						perspective ("ZY", lfigure.vertices, lfigure.lines, "yellow", context);
+						figureList.push(lfigure);
+					}
+					else{
+						figureList.push(lfigure);
+						loadScene (figureList);
+					}
+				});
+				
+				fPerspective.add( settings, 'Orthogonal YZ' ).onChange(function(value){
+					settings['Orthogonal YZ'] = value;
+					var lfigure = figureList.pop();
+					if (value){
+						perspective ("YZ", lfigure.vertices, lfigure.lines, "yellow", context);
+						figureList.push(lfigure);
+					}
+					else{
+						figureList.push(lfigure);
+						loadScene (figureList);
+					}
+				});
+				
+				fPerspective.add( settings, 'Perspective Plane', [ 'XY', 'YZ', 'XZ' ] ).onFinishChange(function(value){
+					settings['Perspective Plane'] = value;
+				});
+				
+				fPerspective.add( settings, 'Point X-coordinate' ).onFinishChange(function(value){				
+				settings['Point X-coordinate'] = value;
+					var lfigure = figureList.pop();
+					if (value){
+						figureList.push(lfigure);
+						loadScene (figureList);
+						perspectivaPoint(settings['Perspective Plane'], new Vertex(settings['Point X-coordinate'], settings['Point Y-coordinate'], settings['Point Z-coordinate']), lfigure.vertices, lfigure.lines, "blue", context);
+					}
+					else{
+						figureList.push(lfigure);
+						loadScene (figureList);
+					}
+				});
+				
+				fPerspective.add( settings, 'Point Y-coordinate' ).onFinishChange(function(value){				
+				settings['Point Y-coordinate'] = value;
+					var lfigure = figureList.pop();
+					if (value){
+						figureList.push(lfigure);
+						loadScene (figureList);
+						perspectivaPoint(settings['Perspective Plane'], new Vertex(settings['Point X-coordinate'], settings['Point Y-coordinate'], settings['Point Z-coordinate']), lfigure.vertices, lfigure.lines, "blue", context);
+					}
+					else{
+						figureList.push(lfigure);
+						loadScene (figureList);
+					}
+				});
+				
+				fPerspective.add( settings, 'Point Z-coordinate' ).onFinishChange(function(value){				
+				settings['Point Z-coordinate'] = value;
+					var lfigure = figureList.pop();
+					if (value){
+						figureList.push(lfigure);
+						loadScene (figureList);
+						perspectivaPoint(settings['Perspective Plane'], new Vertex(settings['Point X-coordinate'], settings['Point Y-coordinate'], settings['Point Z-coordinate']), lfigure.vertices, lfigure.lines, "blue", context);
+					}
+					else{
+						figureList.push(lfigure);
+						loadScene (figureList);
+					}
+				});
+			}
+// --------------------------------- Main ----------------------------------------------	
 			var verticesEixo = [
-				new Vertex(0, 0, 0),
-				new Vertex(1000, 0, 0),
-				new Vertex(0, 0, 1000),
-				new Vertex(0, 1000, 0),
-				new Vertex(-1000, 0, 0),
-				new Vertex(0, 0, -1000),
-				new Vertex(0, -1000, 0)
+				new Vertex(0, 0, 0, 1),
+				new Vertex(2000, 0, 0, 1),
+				new Vertex(0, 0, 2000, 1),
+				new Vertex(0, 2000, 0, 1),
+				new Vertex(-2000, 0, 0, 1),
+				new Vertex(0, 0, -2000, 1),
+				new Vertex(0, -2000, 0, 1)
 			];
 			
 			var facesEixo = [
-				new Polygon([verticesEixo[0], verticesEixo[1]]),
-				new Polygon([verticesEixo[0], verticesEixo[2]]),
-				new Polygon([verticesEixo[0], verticesEixo[3]]),
-				new Polygon([verticesEixo[0], verticesEixo[4]]),
-				new Polygon([verticesEixo[0], verticesEixo[5]]),
-				new Polygon([verticesEixo[0], verticesEixo[6]])
+				[0, 1],
+				[0, 2],
+				[0, 3],
+				[0, 4],
+				[0, 5],
+				[0, 6]
 			];
+			
+			eixo = new figure(verticesEixo, facesEixo, "white");
+			figureList.push(eixo);
 			
 			var canvas = document.getElementById('myCanvas');
 			var context = canvas.getContext('2d');
-			
-			var angle = Math.PI/4
-			var a = 0.5 * Math.cos(angle);
-			var b = 0.5 * Math.sin(angle);
-			
-			var fx = function(vertex) {
-				return vertex.x() + vertex.z() * a;
-			};
-			var fy = function(vertex) {
-				return vertex.y() + vertex.z() * b;
-			};
-			
-			// Makes 0 the center of the canvas
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
 			context.translate(canvas.width / 2, canvas.height / 2);
+			var imageData = context.getImageData(0,0,canvas.width,canvas.height);
 			
-			for (var i = 0; i < faces.length; ++i) {
-				drawPolygon(context, faces[i], fx, fy, "green");
-			}
-			
-			for (var i = 0; i < facesEixo.length; ++i) {
-				drawPolygon(context, facesEixo[i], fx, fy, "white");
-			}
-
-			
+			createPanel();
+			loadScene (figureList);	
 		</script>
 	</body>
 </html>
